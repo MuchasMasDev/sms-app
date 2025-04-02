@@ -12,7 +12,7 @@ interface DefaultItemProps extends CommonProps {
     t: TraslationFn
     indent?: boolean
     dotIndent?: boolean
-    userAuthority: string[]
+    userAuthority: string
 }
 
 interface CollapsedItemProps extends DefaultItemProps {

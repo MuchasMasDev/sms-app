@@ -20,7 +20,7 @@ interface LayoutProps extends CommonProps {
     onDropdownClose: () => void
     routeKey: string
     routeParentKey?: string
-    userAuthority: string[]
+    userAuthority: string
 }
 
 interface HorizontalMenuDropdownContentProps extends LayoutProps {

@@ -32,6 +32,19 @@ const validationSchema: ZodType<SignInFormSchema> = z.object({
         .min(1, { message: 'Please enter your password' }),
 })
 
+const getRandomLoadingMessage = (): string => {
+    const messages: string[] = [
+        'Cargando...',
+        'Verificando credenciales...',
+        'Iniciando sesión...',
+        'Un momento...',
+        'Casi listo...',
+    ]
+
+    const randomIndex: number = Math.floor(Math.random() * messages.length)
+    return messages[randomIndex]
+}
+
 const SignInForm = (props: SignInFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
@@ -43,8 +56,8 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'admin-01@ecme.com',
-            password: '123Qwe',
+            email: 'carlosxmerca@example.com',
+            password: 'securePassword123',
         },
         resolver: zodResolver(validationSchema),
     })
@@ -81,7 +94,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <Input
                                 type="email"
-                                placeholder="Email"
+                                placeholder="email@example.com"
                                 autoComplete="off"
                                 {...field}
                             />
@@ -89,7 +102,7 @@ const SignInForm = (props: SignInFormProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    label="Password"
+                    label="Contraseña"
                     invalid={Boolean(errors.password)}
                     errorMessage={errors.password?.message}
                     className={classNames(
@@ -104,7 +117,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <PasswordInput
                                 type="text"
-                                placeholder="Password"
+                                placeholder="●●●●●●●"
                                 autoComplete="off"
                                 {...field}
                             />
@@ -118,7 +131,9 @@ const SignInForm = (props: SignInFormProps) => {
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Signing in...' : 'Sign In'}
+                    {isSubmitting
+                        ? getRandomLoadingMessage()
+                        : 'Iniciar sesión'}
                 </Button>
             </Form>
         </div>

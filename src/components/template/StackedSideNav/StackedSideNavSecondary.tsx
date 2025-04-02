@@ -14,7 +14,7 @@ type StackedSideNavSecondaryProps = {
     onCollapse: () => void
     direction?: Direction
     translationSetup?: boolean
-    userAuthority: string[]
+    userAuthority: string
 }
 
 const StackedSideNavSecondary = (props: StackedSideNavSecondaryProps) => {

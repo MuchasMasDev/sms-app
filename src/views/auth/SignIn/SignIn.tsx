@@ -1,10 +1,10 @@
 import Logo from '@/components/template/Logo'
-import Alert from '@/components/ui/Alert'
 import SignInForm from './components/SignInForm'
-import OauthSignIn from './components/OauthSignIn'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useThemeStore } from '@/store/themeStore'
+import { toast } from 'sonner'
+import { useEffect } from 'react'
 
 type SignInProps = {
     signUpUrl?: string
@@ -13,7 +13,6 @@ type SignInProps = {
 }
 
 export const SignInBase = ({
-    signUpUrl = '/sign-up',
     forgetPasswordUrl = '/forgot-password',
     disableSubmit,
 }: SignInProps) => {
@@ -21,28 +20,27 @@ export const SignInBase = ({
 
     const mode = useThemeStore((state) => state.mode)
 
+    useEffect(() => {
+        if (message)
+            toast.error(message);
+    }, [message])
+
     return (
         <>
             <div className="mb-8">
                 <Logo
-                    type="streamline"
+                    type="full"
                     mode={mode}
                     imgClass="mx-auto"
-                    logoWidth={60}
                 />
             </div>
 
-            <div className="mb-10">
-                <h2 className="mb-2">Welcome back!</h2>
-                <p className="font-semibold heading-text">
-                    Please enter your credentials to sign in!
+            <div className="mb-10 text-center">
+                <h3 className="mb-2">Sistema de Gestión de Becas</h3>
+                <p className="heading-text text-gray-500">
+                    Por favor, ingresa tus credenciales para iniciar sesión.
                 </p>
             </div>
-            {message && (
-                <Alert showIcon className="mb-4" type="danger">
-                    <span className="break-all">{message}</span>
-                </Alert>
-            )}
             <SignInForm
                 disableSubmit={disableSubmit}
                 setMessage={setMessage}
@@ -53,36 +51,11 @@ export const SignInBase = ({
                             className="font-semibold heading-text mt-2 underline"
                             themeColor={false}
                         >
-                            Forgot password
+                            Recuperar contraseña
                         </ActionLink>
                     </div>
                 }
             />
-            <div className="mt-8">
-                <div className="flex items-center gap-2 mb-6">
-                    <div className="border-t border-gray-200 dark:border-gray-800 flex-1 mt-[1px]" />
-                    <p className="font-semibold heading-text">
-                        or countinue with
-                    </p>
-                    <div className="border-t border-gray-200 dark:border-gray-800 flex-1 mt-[1px]" />
-                </div>
-                <OauthSignIn
-                    disableSubmit={disableSubmit}
-                    setMessage={setMessage}
-                />
-            </div>
-            <div>
-                <div className="mt-6 text-center">
-                    <span>{`Don't have an account yet?`} </span>
-                    <ActionLink
-                        to={signUpUrl}
-                        className="heading-text font-bold"
-                        themeColor={false}
-                    >
-                        Sign up
-                    </ActionLink>
-                </div>
-            </div>
         </>
     )
 }

@@ -4,6 +4,8 @@ import Layout from '@/components/layouts'
 import { AuthProvider } from '@/auth'
 import Views from '@/views'
 import appConfig from './configs/app.config'
+import { Toaster } from 'sonner'
+import { toastConfig } from '@/configs/toast.config'
 
 if (appConfig.enableMock) {
     import('./mock')
@@ -12,6 +14,7 @@ if (appConfig.enableMock) {
 function App() {
     return (
         <Theme>
+            <Toaster {...toastConfig} />
             <BrowserRouter>
                 <AuthProvider>
                     <Layout>

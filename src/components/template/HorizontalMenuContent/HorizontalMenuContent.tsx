@@ -14,7 +14,7 @@ type HorizontalMenuContentProps = {
     navigationTree?: NavigationTree[]
     direction?: Direction
     translationSetup?: boolean
-    userAuthority: string[]
+    userAuthority: string
 }
 
 const HorizontalMenuContent = (props: HorizontalMenuContentProps) => {

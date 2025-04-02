@@ -19,7 +19,7 @@ interface CollapsedItemProps extends CommonProps {
         fallback?: string | Record<string, string | number>,
     ) => string
     renderAsIcon?: boolean
-    userAuthority: string[]
+    userAuthority: string
     currentKey?: string
     parentKeys?: string[]
 }
@@ -33,7 +33,7 @@ interface DefaultItemProps {
         fallback?: string | Record<string, string | number>,
     ) => string
     indent?: boolean
-    userAuthority: string[]
+    userAuthority: string
     showIcon?: boolean
     showTitle?: boolean
 }

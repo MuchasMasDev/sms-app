@@ -1,2 +1,5 @@
 export const ADMIN = 'admin'
-export const USER = 'user'
+export const SCHOLAR = 'scholar'
+export const FINANCE = 'finance'
+export const SPC = 'spc'
+export const TUTOR = 'tutor'
