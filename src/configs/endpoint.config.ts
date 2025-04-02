@@ -1,11 +1,13 @@
 const endpointConfig = {
-    authPrefix: '/auth',
     auth: {
-        signIn: '/sign-in',
-        signOut: '/sign-out',
-        signUp: '/sign-up',
-        forgotPassword: '/forgot-password',
-        resetPassword: '/reset-password',
+        prefix: '/auth',
+        routes: {
+            signIn: '/sign-in',
+            signOut: '/sign-out',
+            signUp: '/sign-up',
+            forgotPassword: '/forgot-password',
+            resetPassword: '/reset-password',
+        },
     },
 }
 
