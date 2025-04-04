@@ -333,7 +333,7 @@ function DataTable<T>(props: DataTableProps<T>) {
                                             <>
                                                 <FileNotFound />
                                                 <span className="font-semibold">
-                                                    No data found!
+                                                    No hay datos!
                                                 </span>
                                             </>
                                         )}

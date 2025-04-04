@@ -1,4 +1,6 @@
 import { AdaptiveCard, Container } from '@/components/shared'
+import AllScholarsTable from '@/views/scholars/management/AllScholars/components/AllScholarsTable'
+import AllScholarsActionTools from '@/views/scholars/management/AllScholars/components/AllScholarsActionTools'
 
 const AllScholars = () => {
     return (
@@ -7,10 +9,10 @@ const AllScholars = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>Registros de becarias en el sistema</h3>
-                        {/*<OrderListActionTools />*/}
+                        <AllScholarsActionTools />
                     </div>
-                    {/*<OrderListTableTools />*/}
-                    {/*<OrderListTable />*/}
+                    {/*<AllScholarsTableTools />*/}
+                    <AllScholarsTable />
                 </div>
             </AdaptiveCard>
         </Container>

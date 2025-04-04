@@ -9,6 +9,12 @@ const endpointConfig = {
             resetPassword: '/reset-password',
         },
     },
+    scholars: {
+        prefix: '/scholars',
+        routes: {
+            all: '',
+        },
+    },
 }
 
 export default endpointConfig

@@ -66,7 +66,7 @@ const navigationConfig: NavigationTree[] = [
         translateKey: 'nav.adminMenu',
         icon: 'adminMenu',
         type: NAV_ITEM_TYPE_TITLE,
-        authority: [],
+        authority: ['ADMIN'],
         subMenu: [
             {
                 key: 'scholarsMenu',
