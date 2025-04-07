@@ -69,19 +69,28 @@ const navigationConfig: NavigationTree[] = [
         authority: ['ADMIN'],
         subMenu: [
             {
-                key: 'scholarsMenu',
+                key: 'adminMenu.scholarsMenu',
                 path: '',
                 title: 'Becarias',
-                translateKey: 'nav.scholarsMenu',
+                translateKey: 'nav.adminMenu.scholarsMenu',
                 icon: 'scholarsMenu',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
                     {
-                        key: 'scholarsMenu.all',
+                        key: 'adminMenu.scholarsMenu.all',
                         path: '/scholars',
                         title: 'Todos los registros',
-                        translateKey: 'nav.scholarsMenu.all',
+                        translateKey: 'nav.adminMenu.scholarsMenu.all',
+                        icon: '',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
+                    },{
+                        key: 'adminMenu.scholarsMenu.create',
+                        path: '/scholars/new',
+                        title: 'Agregar una becaria',
+                        translateKey: 'nav.adminMenu.scholarsMenu.create',
                         icon: '',
                         type: NAV_ITEM_TYPE_ITEM,
                         authority: [],

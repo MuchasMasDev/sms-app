@@ -83,8 +83,8 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
         children,
         onCancel,
         onConfirm,
-        cancelText = 'Cancel',
-        confirmText = 'Confirm',
+        cancelText = 'Cancelar',
+        confirmText = 'Confirmar',
         confirmButtonProps,
         cancelButtonProps,
         ...rest

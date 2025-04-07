@@ -26,7 +26,7 @@ const AllScholarsActionTools = () => {
             <Button
                 variant="solid"
                 icon={<TbPlus className="text-xl" />}
-                onClick={() => navigate('/scholars/add-new')}
+                onClick={() => navigate('/scholars/new')}
             >
                 Agregar nuevo registro
             </Button>

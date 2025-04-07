@@ -116,6 +116,18 @@ const AllScholarsTable = () => {
                 },
             },
             {
+                header: 'Email',
+                accessorKey: 'user.email',
+                cell: (props) => {
+                    const row = props.row.original
+                    return (
+                        <span className="font-semibold">
+                            {row.user.email}
+                        </span>
+                    )
+                },
+            },
+            {
                 header: 'Estado',
                 accessorKey: 'state',
                 cell: (props) => {
@@ -144,6 +156,13 @@ const AllScholarsTable = () => {
         setTableData(data)
     }
 
+    const handleSelectChange = (value: number) => {
+        const newTableData = cloneDeep(tableData)
+        newTableData.pageSize = Number(value)
+        newTableData.pageIndex = 1
+        handleSetTableData(newTableData)
+    }
+
     const handlePaginationChange = (page: number) => {
         const newTableData = cloneDeep(tableData)
         newTableData.pageIndex = page
@@ -170,6 +189,7 @@ const AllScholarsTable = () => {
                 pageSize: tableData.pageSize as number,
             }}
             onPaginationChange={handlePaginationChange}
+            onSelectChange={handleSelectChange}
             onSort={handleSort}
         />
     )
