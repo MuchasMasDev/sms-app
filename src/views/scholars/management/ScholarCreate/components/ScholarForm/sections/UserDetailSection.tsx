@@ -94,6 +94,7 @@ const UserDetailSection = ({
     errors,
     disability,
 }: CustomerDetailSectionProps) => {
+    
     const generateNewPassword = (
         control: ControllerRenderProps<CreateScholarSchemaType>,
     ) => {

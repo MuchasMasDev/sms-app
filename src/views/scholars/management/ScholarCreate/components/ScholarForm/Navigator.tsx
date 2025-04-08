@@ -18,7 +18,7 @@ const navigationList = [
     },
     {
         label: 'Residencia',
-        description: 'Dirección de residencia actual de la becaria.',
+        description: 'Dirección de residencia de origen de la becaria.',
         link: 'addressInformation',
         icon: <TbMapPin />,
     },

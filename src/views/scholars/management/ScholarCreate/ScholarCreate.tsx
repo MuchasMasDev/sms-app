@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import Button from '@/components/ui/Button'
-import Container from '@/components/shared/Container'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
-import sleep from '@/utils/sleep'
-import { useNavigate } from 'react-router-dom'
-import { TbTrash } from 'react-icons/tb'
-import { toast } from 'sonner'
+import Container from '@/components/shared/Container'
+import Button from '@/components/ui/Button'
+import { apiCreateScholar } from '@/services/ScholarsService'
 import { CreateScholarSchemaType } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
 import ScholarForm from '@/views/scholars/management/ScholarCreate/components/ScholarForm/ScholarForm'
+import { useState } from 'react'
+import { TbTrash } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const ScholarCreate = () => {
     const navigate = useNavigate()
@@ -19,10 +19,18 @@ const ScholarCreate = () => {
     const handleFormSubmit = async (values: CreateScholarSchemaType) => {
         console.log('Submitted values', values)
         setIsSubmiting(true)
-        await sleep(800)
-        setIsSubmiting(false)
-        toast.success('Becaria registrada con éxito')
-        navigate('/scholars')
+        try {
+            await apiCreateScholar(values)
+            toast.success('Becaria creada correctamente')
+        }
+        catch (error) {
+            console.error('Error creating scholar', error)
+            toast.error('Error al crear la becaria')
+        }
+        finally {
+            setIsSubmiting(false)
+            navigate('/scholars')
+        }
     }
 
     const handleConfirmDiscard = () => {

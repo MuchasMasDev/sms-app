@@ -9,15 +9,15 @@ export const CreateAddressDtoSchema = z.object({
     municipalityId: z
         .number()
         .int('El ID de municipio debe ser un número entero'),
-    isUrban: z.boolean(),
+    isUrban: z.boolean().default(false),
 })
 
 export type CreateAddressSchemaType = z.infer<typeof CreateAddressDtoSchema>
 
 export const CreatePhoneNumberDtoSchema = z.object({
     number: z.string().min(1, 'El número de teléfono es obligatorio'),
-    isMobile: z.boolean(),
-    isCurrent: z.boolean(),
+    isMobile: z.boolean().default(true).optional(),
+    isCurrent: z.boolean().default(true).optional(),
 })
 
 export type CreatePhoneNumberSchemaType = z.infer<
@@ -54,6 +54,7 @@ export const CreateScholarSchema = z
             .max(500, 'Máximo 500 caracteres')
             .optional(),
         numberOfChildren: z.string().optional().default('0'),
+        dui: z.string().max(9, 'Máximo 9 caracteres').optional(),
         ingressDate: z.date({ message: 'La fecha de ingreso no debe ir vacía' }),
         emergencyContactName: z
             .string()
@@ -67,13 +68,11 @@ export const CreateScholarSchema = z
             .string()
             .min(1, 'Requerido')
             .max(30, 'Máximo 30 caracteres'),
-        dui: z.string().max(9, 'Máximo 9 caracteres').optional(),
         addresses: z
             .array(CreateAddressDtoSchema)
             .min(1, 'Se requiere al menos una dirección'),
         phoneNumbers: z
-            .array(CreatePhoneNumberDtoSchema)
-            .min(1, 'Se requiere al menos un número de teléfono'),
+            .array(CreatePhoneNumberDtoSchema),
         bankAccounts: z
             .array(CreateBankAccountDtoSchema)
             .min(1, 'Se requiere al menos una cuenta bancaria'),

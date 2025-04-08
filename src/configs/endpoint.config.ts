@@ -13,6 +13,7 @@ const endpointConfig = {
         prefix: '/scholars',
         routes: {
             all: '',
+            create: '',
         },
     },
 }

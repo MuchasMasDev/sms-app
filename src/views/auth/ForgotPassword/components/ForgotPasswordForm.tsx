@@ -83,7 +83,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                         variant="solid"
                         type="submit"
                     >
-                        {isSubmitting ? 'Submiting...' : 'Submit'}
+                        {isSubmitting ? 'Enviando...' : 'Enviar'}
                     </Button>
                 </Form>
             ) : (

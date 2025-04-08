@@ -141,6 +141,7 @@ const EmergencyContactSection = ({
                                 autoComplete="off"
                                 placeholder="7848-5748"
                                 value={phoneValue}
+                                maxLength={9}
                                 onChange={(e) => {
                                     const formatted = formatPhoneNumber(
                                         e.target.value,
@@ -148,7 +149,6 @@ const EmergencyContactSection = ({
                                     setPhoneValue(formatted)
                                     field.onChange(formatted)
                                 }}
-                                maxLength={9} // 8 dígitos + 1 guión
                             />
                         )}
                     />

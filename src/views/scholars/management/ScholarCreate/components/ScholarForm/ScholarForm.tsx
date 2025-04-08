@@ -1,24 +1,26 @@
-import type { ReactNode } from 'react'
-import { useEffect } from 'react'
-import { Form } from '@/components/ui/Form'
+import type { CommonProps } from '@/@types/common'
 import Affix from '@/components/shared/Affix'
-import Card from '@/components/ui/Card'
 import Container from '@/components/shared/Container'
 import BottomStickyBar from '@/components/template/BottomStickyBar'
+import Card from '@/components/ui/Card'
+import { Form } from '@/components/ui/Form'
 import useLayoutGap from '@/utils/hooks/useLayoutGap'
 import useResponsive from '@/utils/hooks/useResponsive'
-import isEmpty from 'lodash/isEmpty'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import type { CommonProps } from '@/@types/common'
+import Navigator from '@/views/scholars/management/ScholarCreate/components/ScholarForm/Navigator'
 import {
     CreateScholarSchema,
     CreateScholarSchemaType,
 } from '@/views/scholars/management/ScholarCreate/components/ScholarForm/ScholarFormSchemas'
+import EmergencyContactSection from '@/views/scholars/management/ScholarCreate/components/ScholarForm/sections/EmergencyContactSection'
 import UserDetailSection from '@/views/scholars/management/ScholarCreate/components/ScholarForm/sections/UserDetailSection'
-import Navigator from '@/views/scholars/management/ScholarCreate/components/ScholarForm/Navigator'
-import EmergencyContactSection
-    from '@/views/scholars/management/ScholarCreate/components/ScholarForm/sections/EmergencyContactSection'
+import { zodResolver } from '@hookform/resolvers/zod'
+import isEmpty from 'lodash/isEmpty'
+import type { ReactNode } from 'react'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import FinancialSection from './sections/FinancialSection'
+import PhoneNumberSection from './sections/PhoneNumberSection'
+import ResidenceSection from './sections/ResidenceSection'
 
 type ScholarFormProps = {
     children: ReactNode
@@ -89,18 +91,18 @@ const ScholarForm = (props: ScholarFormProps) => {
                                     control={control}
                                     errors={errors}
                                 />
-                                {/*<ResidenceSection
+                                <ResidenceSection
                                     control={control}
                                     errors={errors}
-                                />*/}
-                                {/*<PhoneNumberSection
+                                />
+                                <PhoneNumberSection
                                     control={control}
                                     errors={errors}
-                                />*/}
-                                {/*<FinancialSection
+                                />
+                                <FinancialSection
                                     control={control}
                                     errors={errors}
-                                />*/}
+                                />
                             </div>
                         </div>
                     </div>

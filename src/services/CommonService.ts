@@ -36,3 +36,32 @@ export async function apiGetSearchResult<T>(params: { query: string }) {
         params,
     })
 }
+
+type Municipality = {
+    id: number
+    name: string
+    department_id: number
+    departments: {
+        name: string
+    }
+}
+
+type Bank = {
+    id: number
+    name: string
+    logo_src: string
+}
+
+export async function apiGetMunicipalities() {
+    return ApiService.fetchDataWithAxios<Municipality[]>({
+        url: '/municipalities',
+        method: 'get',
+    })
+}
+
+export async function apiGetBanks() {
+    return ApiService.fetchDataWithAxios<Bank[]>({
+        url: '/banks',
+        method: 'get',
+    })
+}
