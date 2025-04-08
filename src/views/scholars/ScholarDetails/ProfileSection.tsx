@@ -1,10 +1,12 @@
-import Card from '@/components/ui/Card'
-import Button from '@/components/ui/Button'
+import { UserScholarDetails } from '@/@types/scholar'
 import Avatar from '@/components/ui/Avatar/Avatar'
+import Button from '@/components/ui/Button'
+import Card from '@/components/ui/Card'
 import Tooltip from '@/components/ui/Tooltip'
+import CreateScholarLog from '@/views/scholars/ScholarDetails/CreateScholarLog'
+import { useState } from 'react'
 import { HiPencil } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
-import { UserScholarDetails } from '@/@types/scholar'
 
 type CustomerInfoFieldProps = {
     title?: string
@@ -27,8 +29,14 @@ const CustomerInfoField = ({ title, value }: CustomerInfoFieldProps) => {
 const ProfileSection = ({ data }: ProfileSectionProps) => {
     const navigate = useNavigate()
 
-    const handleSendMessage = () => {
-        navigate('/concepts/chat')
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleOpenDrawer = () => {
+        setIsOpen(true)
+    }
+
+    const onDrawerClose = () => {
+        setIsOpen(false)
     }
 
     const handleEdit = () => {
@@ -78,10 +86,15 @@ const ProfileSection = ({ data }: ProfileSectionProps) => {
                     />
                 </div>
                 <div className="flex flex-col gap-4">
-                    <Button block variant="solid" onClick={handleSendMessage}>
+                    <Button block variant="solid" onClick={handleOpenDrawer}>
                         Crear bitácora
                     </Button>
                 </div>
+                <CreateScholarLog
+                    scholarId={data.id}
+                    isOpen={isOpen}
+                    onDrawerClose={onDrawerClose}
+                />
             </div>
         </Card>
     )

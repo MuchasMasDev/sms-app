@@ -2,13 +2,13 @@ import Card from '@/components/ui/Card'
 import Tabs from '@/components/ui/Tabs'
 import Loading from '@/components/shared/Loading'
 import ProfileSection from './ProfileSection'
-import BillingSection from './DetailsSection'
 import ActivitySection from './ActivitySection'
 import useSWR from 'swr'
 import { useParams } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import { apiGetScholar } from '@/services/ScholarService'
 import { UserScholarDetails } from '@/@types/scholar'
+import DetailsSection from '@/views/scholars/ScholarDetails/DetailsSection'
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -36,11 +36,11 @@ const ScholarDetails = () => {
                             </TabList>
                             <div className="p-4">
                                 <TabContent value="detalles">
-                                    <BillingSection data={data} />
+                                    <DetailsSection data={data} />
                                 </TabContent>
                                 <TabContent value="activity">
                                     <ActivitySection
-                                        customerName={data.user.first_name}
+                                        scholarName={data.user.first_name}
                                         id={id as string}
                                     />
                                 </TabContent>

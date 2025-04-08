@@ -1,6 +1,7 @@
 import ApiService from '@/services/ApiService'
 import endpointConfig from '@/configs/endpoint.config'
 import { CreateScholarSchemaType } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
+import { Log } from '@/views/scholars/ScholarDetails/CreateScholarLog'
 
 export async function apiGetAllScholarsList<T, U extends Record<string, unknown>>(
     params: U,
@@ -27,6 +28,17 @@ export async function apiCreateScholar(
             numberOfChildren: +params.numberOfChildren,
             hasDisability: params.hasDisability === 'false' ? false : true,
             "state": "ACTIVE"
+        },
+    })
+}
+
+export async function apiCreateScholarLog(data: Log, scholarId: string) {
+    return ApiService.fetchDataWithAxios({
+        url: endpointConfig.scholarsLogBook.prefix + endpointConfig.scholarsLogBook.routes.create + scholarId,
+        method: 'post',
+        data: {
+            ...data,
+            date: data.date ? data.date.toISOString() : new Date().toISOString(),
         },
     })
 }
