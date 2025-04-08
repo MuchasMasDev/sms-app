@@ -15,17 +15,10 @@ const { TabNav, TabList, TabContent } = Tabs
 const ScholarDetails = () => {
     const { id } = useParams()
 
-    const { data, isLoading } = useSWR(
-        id ? `/api/scholars/${id}` : null,
-        () =>
-            apiGetScholar<UserScholarDetails, { id: string }>({
-                id: id as string,
-            }),
-        {
-            revalidateOnFocus: false,
-            revalidateIfStale: false,
-            revalidateOnMount: true,
-        },
+    const { data, isLoading } = useSWR(id ? `/api/scholars/${id}` : null, () =>
+        apiGetScholar<UserScholarDetails, { id: string }>({
+            id: id as string,
+        }),
     )
 
     return (
@@ -36,7 +29,7 @@ const ScholarDetails = () => {
                         <ProfileSection data={data} />
                     </div>
                     <Card className="w-full">
-                        <Tabs defaultValue="billing">
+                        <Tabs defaultValue="detalles">
                             <TabList>
                                 <TabNav value="detalles">Detalles</TabNav>
                                 <TabNav value="activity">Notas</TabNav>

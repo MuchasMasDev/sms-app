@@ -1,3 +1,39 @@
+export type BankAccountType = 'SAVINGS' | 'CURRENT';
+
+export interface Address {
+  street_line_1: string;
+  street_line_2: string | null;
+  apartment_number: string | null;
+  postal_code: string | null;
+  is_urban: boolean;
+  municipality: string;
+  department: string;
+}
+
+export interface ScholarAddress {
+  is_current: boolean;
+  addresses: Address;
+}
+
+export interface ScholarPhoneNumber {
+  is_mobile: boolean;
+  is_current: boolean;
+  number: string;
+}
+
+export interface Bank {
+  name: string;
+  logo: string;
+}
+
+export interface BankAccount {
+  account_number: string;
+  is_primary: boolean;
+  account_type: BankAccountType;
+  bank: Bank;
+}
+
+
 export type UserScholarDetails = {
     id: string
     user_id: string
@@ -24,6 +60,9 @@ export type UserScholarDetails = {
         email: string
         role: 'SCHOLAR' | 'FINANCE' | 'SPC' | 'TUTOR' | 'ADMIN'
     }
+    scholar_addresses: ScholarAddress[] | undefined;
+    scholar_phone_numbers: ScholarPhoneNumber[] | undefined;
+    bank_accounts: BankAccount[] | undefined;
 }
 
 export type ScholarLog = {

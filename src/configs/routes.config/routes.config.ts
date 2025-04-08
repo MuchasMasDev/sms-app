@@ -27,7 +27,7 @@ export const protectedRoutes: Routes = [
     {
         key: 'scholars.scholarDetails',
         path: `/scholars/details/:id`,
-        component: lazy(() => import('@/views/scholars/details')),
+        component: lazy(() => import('../../views/scholars/ScholarDetails')),
         authority: ['ADMIN']
     },
     /** Example purpose only, please remove */

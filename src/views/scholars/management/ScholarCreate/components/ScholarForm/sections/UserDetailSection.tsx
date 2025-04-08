@@ -10,37 +10,12 @@ import {
 import { Button } from '@/components/ui/Button'
 import { TbArrowsShuffle } from 'react-icons/tb'
 import { Select } from '@/components/ui'
+import { PatternInput } from '@/components/shared'
+import { genderOptions } from '@/constants/app.constant'
 
 type CustomerDetailSectionProps = FormSectionBaseProps & {
     disability?: string
 }
-
-const genderOptions = [
-    {
-        value: 'female',
-        label: 'Femenino',
-    },
-    {
-        value: 'non_binary',
-        label: 'No binario',
-    },
-    {
-        value: 'transgender',
-        label: 'Transgénero',
-    },
-    {
-        value: 'genderfluid',
-        label: 'Género fluido',
-    },
-    {
-        value: 'agender',
-        label: 'Agénero',
-    },
-    {
-        value: 'other',
-        label: 'Otro',
-    },
-]
 
 const disabilityOptions = [
     {
@@ -94,7 +69,6 @@ const UserDetailSection = ({
     errors,
     disability,
 }: CustomerDetailSectionProps) => {
-    
     const generateNewPassword = (
         control: ControllerRenderProps<CreateScholarSchemaType>,
     ) => {
@@ -205,7 +179,7 @@ const UserDetailSection = ({
                 </FormItem>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
                 <FormItem
                     label="Género"
                     invalid={Boolean(errors.gender)}
@@ -239,6 +213,25 @@ const UserDetailSection = ({
                         name="dob"
                         control={control}
                         render={({ field }) => <DatePicker {...field} />}
+                    />
+                </FormItem>
+
+                <FormItem
+                    label="DUI"
+                    invalid={Boolean(errors.dui)}
+                    errorMessage={errors.dui?.message}
+                >
+                    <Controller
+                        name="dui"
+                        control={control}
+                        render={({ field }) => (
+                            <PatternInput
+                                format="########-#"
+                                mask="_"
+                                placeholder="DUI"
+                                {...field}
+                            />
+                        )}
                     />
                 </FormItem>
             </div>
@@ -277,6 +270,7 @@ const UserDetailSection = ({
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
+
                 <FormItem
                     label="Discapacidad"
                     invalid={Boolean(errors.hasDisability)}
@@ -321,6 +315,7 @@ const UserDetailSection = ({
                         )}
                     />
                 </FormItem>
+
             </div>
         </Card>
     )
