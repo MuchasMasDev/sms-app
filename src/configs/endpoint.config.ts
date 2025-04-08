@@ -16,6 +16,14 @@ const endpointConfig = {
             create: '',
         },
     },
+    scholarsLogBook: {
+        prefix: '/logbook',
+        routes: {
+            all: '',
+            from: '/scholar/',
+            create: '/scholar/',
+        },
+    },
 }
 
 export default endpointConfig
