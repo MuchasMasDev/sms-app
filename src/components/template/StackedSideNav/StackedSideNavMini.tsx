@@ -30,7 +30,7 @@ interface StackedSideNavMiniProps extends CommonProps {
     routeKey: string
     activeKeys: string[]
     onSetActiveKey: (activeKey: string[]) => void
-    userAuthority: string[]
+    userAuthority: string
     mode: Mode
     direction: Direction
     navigationTree: NavigationTree[]

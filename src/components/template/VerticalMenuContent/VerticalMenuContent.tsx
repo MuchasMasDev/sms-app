@@ -22,7 +22,7 @@ export interface VerticalMenuContentProps {
     onMenuItemClick?: () => void
     direction?: Direction
     translationSetup?: boolean
-    userAuthority: string[]
+    userAuthority: string
 }
 
 const { MenuGroup } = Menu

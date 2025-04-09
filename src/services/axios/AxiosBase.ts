@@ -3,6 +3,9 @@ import AxiosResponseIntrceptorErrorCallback from './AxiosResponseIntrceptorError
 import AxiosRequestIntrceptorConfigCallback from './AxiosRequestIntrceptorConfigCallback'
 import appConfig from '@/configs/app.config'
 import type { AxiosError } from 'axios'
+import { useToken } from '@/store/authStore'
+
+const { token } = useToken()
 
 const AxiosBase = axios.create({
     timeout: 60000,
@@ -25,5 +28,7 @@ AxiosBase.interceptors.response.use(
         return Promise.reject(error)
     },
 )
+
+AxiosBase.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
 export default AxiosBase

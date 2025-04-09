@@ -6,6 +6,7 @@ import LayoutBase from '@/components//template/LayoutBase'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_STACKED_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
+import SidePanel from '@/components/template/SidePanel'
 
 const StackedSide = ({ children }: CommonProps) => {
     const { larger, smaller } = useResponsive()
@@ -23,6 +24,7 @@ const StackedSide = ({ children }: CommonProps) => {
                         headerStart={<>{smaller.lg && <MobileNav />}</>}
                         headerEnd={
                             <>
+                                <SidePanel />
                                 <UserProfileDropdown hoverable={false} />
                             </>
                         }

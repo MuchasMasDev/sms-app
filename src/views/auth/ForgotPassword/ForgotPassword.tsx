@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import Alert from '@/components/ui/Alert'
+import { useEffect, useState } from 'react'
 import Button from '@/components/ui/Button'
 import ActionLink from '@/components/shared/ActionLink'
 import ForgotPasswordForm from './components/ForgotPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 type ForgotPasswordProps = {
     signInUrl?: string
@@ -22,6 +22,10 @@ export const ForgotPasswordBase = ({
         navigate(signInUrl)
     }
 
+    useEffect(() => {
+        if (message) toast.error(message)
+    }, [message])
+
     return (
         <div>
             <div className="mb-6">
@@ -34,19 +38,14 @@ export const ForgotPasswordBase = ({
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-2">Forgot Password</h3>
+                        <h3 className="mb-2">Restaurar contraseña</h3>
                         <p className="font-semibold heading-text">
-                            Please enter your email to receive a verification
-                            code
+                            Por favor, ingresa tu correo para recibir
+                            indicaciones en como restablecer tu contraseña
                         </p>
                     </>
                 )}
             </div>
-            {message && (
-                <Alert showIcon className="mb-4" type="danger">
-                    <span className="break-all">{message}</span>
-                </Alert>
-            )}
             <ForgotPasswordForm
                 emailSent={emailSent}
                 setMessage={setMessage}
@@ -62,13 +61,13 @@ export const ForgotPasswordBase = ({
                 </Button>
             </ForgotPasswordForm>
             <div className="mt-4 text-center">
-                <span>Back to </span>
+                <span>Regresar al </span>
                 <ActionLink
                     to={signInUrl}
                     className="heading-text font-bold"
                     themeColor={false}
                 >
-                    Sign in
+                    inicio de sesión
                 </ActionLink>
             </div>
         </div>
