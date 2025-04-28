@@ -40,6 +40,12 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('../../views/scholars/ScholarDetails')),
         authority: ['ADMIN'],
     },
+    {
+        key: 'catalogs.banks',
+        path: `/catalogs/banks`,
+        component: lazy(() => import('../../views/management/Banks')),
+        authority: ['ADMIN'],
+    },
     /** Example purpose only, please remove */
     // {
     //     key: 'singleMenuItem',

@@ -97,7 +97,7 @@ const SettingsProfile = () => {
 
     return (
         <>
-            <h4 className="mb-8">Personal information</h4>
+            <h4 className="mb-8">Perfil</h4>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-8">
                     <Controller

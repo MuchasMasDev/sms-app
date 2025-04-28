@@ -26,7 +26,7 @@ export async function apiCreateScholar(
             dob: params.dob.toISOString(),
             ingressDate: params.ingressDate.toISOString(),
             numberOfChildren: +params.numberOfChildren,
-            hasDisability: params.hasDisability === 'false' ? false : true,
+            hasDisability: params.hasDisability,
             "state": "ACTIVE"
         },
     })
