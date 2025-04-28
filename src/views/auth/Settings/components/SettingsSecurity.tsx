@@ -1,25 +1,22 @@
-import { useRef, useState } from 'react'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
+import Button from '@/components/ui/Button'
 import { Form, FormItem } from '@/components/ui/Form'
-import sleep from '@/utils/sleep'
+import Input from '@/components/ui/Input'
+import { apiChangePassword } from '@/services/AuthService'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import type { ZodType } from 'zod'
 import { z } from 'zod'
 
 type PasswordSchema = {
-    currentPassword: string
     newPassword: string
     confirmNewPassword: string
 }
 
 const validationSchema: ZodType<PasswordSchema> = z
     .object({
-        currentPassword: z
-            .string()
-            .min(1, { message: 'Please enter your current password!' }),
         newPassword: z
             .string()
             .min(1, { message: 'Please enter your new password!' }),
@@ -41,6 +38,7 @@ const SettingsSecurity = () => {
     const {
         getValues,
         handleSubmit,
+        reset,
         formState: { errors },
         control,
     } = useForm<PasswordSchema>({
@@ -49,10 +47,12 @@ const SettingsSecurity = () => {
 
     const handlePostSubmit = async () => {
         setIsSubmitting(true)
-        await sleep(1000)
-        console.log('getValues', getValues())
+        const { newPassword } = getValues()
+        const response = await apiChangePassword<{ message: string }>({ password: newPassword })
+        if (response) toast.success(response.message)
         setConfirmationOpen(false)
         setIsSubmitting(false)
+        reset()
     }
 
     const onSubmit = async () => {
@@ -73,25 +73,7 @@ const SettingsSecurity = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <FormItem
-                    label="Current password"
-                    invalid={Boolean(errors.currentPassword)}
-                    errorMessage={errors.currentPassword?.message}
-                >
-                    <Controller
-                        name="currentPassword"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="password"
-                                autoComplete="off"
-                                placeholder="•••••••••"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-                <FormItem
-                    label="New password"
+                    label="Nueva contraseña"
                     invalid={Boolean(errors.newPassword)}
                     errorMessage={errors.newPassword?.message}
                 >
@@ -109,7 +91,7 @@ const SettingsSecurity = () => {
                     />
                 </FormItem>
                 <FormItem
-                    label="Confirm new password"
+                    label="Confirmar nueva contraseña"
                     invalid={Boolean(errors.confirmNewPassword)}
                     errorMessage={errors.confirmNewPassword?.message}
                 >
@@ -128,14 +110,15 @@ const SettingsSecurity = () => {
                 </FormItem>
                 <div className="flex justify-end">
                     <Button variant="solid" type="submit">
-                        Update
+                        Cambiar contraseña
                     </Button>
                 </div>
             </Form>
             <ConfirmDialog
                 isOpen={confirmationOpen}
                 type="warning"
-                title="Update password"
+                title="Actualizar contraseña"
+                confirmText="Actualizar"
                 confirmButtonProps={{
                     loading: isSubmitting,
                     onClick: handlePostSubmit,
@@ -144,7 +127,9 @@ const SettingsSecurity = () => {
                 onRequestClose={() => setConfirmationOpen(false)}
                 onCancel={() => setConfirmationOpen(false)}
             >
-                <p>Are you sure you want to change your password?</p>
+                <p>
+                    ¿Estás seguro de que deseas actualizar tu contraseña?
+                </p>
             </ConfirmDialog>
         </div>
     )

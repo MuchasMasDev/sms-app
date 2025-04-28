@@ -56,3 +56,11 @@ export async function apiUpdateUser<T>(data: UpdateUser) {
         data,
     })
 }
+
+export async function apiChangePassword<T>(data: { password: string }) {
+    return ApiService.fetchDataWithAxios<T>({
+        url: endpointConfig.auth.prefix + endpointConfig.auth.routes.changePassword,
+        method: 'post',
+        data,
+    })
+}

@@ -6,7 +6,6 @@ import { Form, FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 import Upload from '@/components/ui/Upload'
 import { apiUpdateUser } from '@/services/AuthService'
-import sleep from '@/utils/sleep'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -74,7 +73,6 @@ const SettingsProfile = () => {
     }, [user])
 
     const onSubmit = async (values: ProfileSchema) => {
-        await sleep(500)
         let response: User | null = null
         if (user)
             response = await apiUpdateUser({
@@ -134,7 +132,7 @@ const SettingsProfile = () => {
                                             type="button"
                                             icon={<TbPlus />}
                                         >
-                                            Upload Image
+                                            Subir foto
                                         </Button>
                                     </Upload>
                                     <Button
@@ -144,7 +142,7 @@ const SettingsProfile = () => {
                                             field.onChange('')
                                         }}
                                     >
-                                        Remove
+                                        Eliminar foto
                                     </Button>
                                 </div>
                             </div>
@@ -153,7 +151,7 @@ const SettingsProfile = () => {
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
                     <FormItem
-                        label="First name"
+                        label="Nombres"
                         invalid={Boolean(errors.firstName)}
                         errorMessage={errors.firstName?.message}
                     >
@@ -164,14 +162,14 @@ const SettingsProfile = () => {
                                 <Input
                                     type="text"
                                     autoComplete="off"
-                                    placeholder="First Name"
+                                    placeholder="Nombres"
                                     {...field}
                                 />
                             )}
                         />
                     </FormItem>
                     <FormItem
-                        label="User name"
+                        label="Apellidos"
                         invalid={Boolean(errors.lastName)}
                         errorMessage={errors.lastName?.message}
                     >
@@ -182,7 +180,7 @@ const SettingsProfile = () => {
                                 <Input
                                     type="text"
                                     autoComplete="off"
-                                    placeholder="Last Name"
+                                    placeholder="Apellidos"
                                     {...field}
                                 />
                             )}
@@ -213,7 +211,7 @@ const SettingsProfile = () => {
                         type="submit"
                         loading={isSubmitting}
                     >
-                        Save
+                        Guardar cambios
                     </Button>
                 </div>
             </Form>
