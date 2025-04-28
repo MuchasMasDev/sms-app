@@ -7,9 +7,9 @@ import { Controller } from 'react-hook-form'
 import useSWR from 'swr'
 
 
-type ResidenceSectionProps = FormSectionBaseProps
+type OriginResidenceSectionProps = FormSectionBaseProps
 
-const ResidenceSection = ({ control, errors }: ResidenceSectionProps) => {
+const OriginResidenceSection = ({ control, errors }: OriginResidenceSectionProps) => {
 
     const { data, isLoading } = useSWR(['/api/residences/municipalities'], () => apiGetMunicipalities())
 
@@ -29,7 +29,7 @@ const ResidenceSection = ({ control, errors }: ResidenceSectionProps) => {
                             <Input
                                 type="text"
                                 autoComplete="off"
-                                placeholder="Calle 123"
+                                placeholder="Barrio Santa Lucía"
                                 {...field}
                             />
                         )}
@@ -47,46 +47,7 @@ const ResidenceSection = ({ control, errors }: ResidenceSectionProps) => {
                             <Input
                                 type="text"
                                 autoComplete="off"
-                                placeholder="Avenida 456"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-                <FormItem
-                    label="Número de casa o apartamento"
-                    invalid={Boolean(errors.addresses?.[0]?.apartmentNumber)}
-                    errorMessage={errors.addresses?.[0]?.apartmentNumber?.message}
-                >
-                    <Controller
-                        name="addresses.0.apartmentNumber"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                autoComplete="off"
-                                placeholder="Apto 123"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-
-                <FormItem
-                    label="Código postal"
-                    invalid={Boolean(errors.addresses?.[0]?.postalCode)}
-                    errorMessage={errors.addresses?.[0]?.postalCode?.message}
-                >
-                    <Controller
-                        name="addresses.0.postalCode"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                autoComplete="off"
-                                placeholder="12345"
+                                placeholder="Cantón El Perico"
                                 {...field}
                             />
                         )}
@@ -111,11 +72,11 @@ const ResidenceSection = ({ control, errors }: ResidenceSectionProps) => {
                 </FormItem>
                 <FormItem
                     label="Municipio"
-                    invalid={Boolean(errors.addresses?.[0]?.municipalityId)}
-                    errorMessage={errors.addresses?.[0]?.municipalityId?.message}
+                    invalid={Boolean(errors.addresses?.[0]?.districtId)}
+                    errorMessage={errors.addresses?.[0]?.districtId?.message}
                 >
                     <Controller
-                        name="addresses.0.municipalityId"
+                        name="addresses.0.districtId"
                         control={control}
                         render={({ field }) => {
                             const options = data?.map((municipality) => ({
@@ -128,6 +89,7 @@ const ResidenceSection = ({ control, errors }: ResidenceSectionProps) => {
                                 <Select
                                     isClearable
                                     placeholder="Seleccione un municipio"
+                                    noOptionsMessage={() => 'No hay municipios'}
                                     isLoading={isLoading}
                                     options={options}
                                     {...field}
@@ -144,4 +106,4 @@ const ResidenceSection = ({ control, errors }: ResidenceSectionProps) => {
     )
 }
 
-export default ResidenceSection
+export default OriginResidenceSection

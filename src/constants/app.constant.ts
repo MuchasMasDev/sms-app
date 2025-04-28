@@ -3,8 +3,8 @@ export const REDIRECT_URL_KEY = 'redirectUrl'
 
 export const genderOptions = [
     {
-        value: 'female',
-        label: 'Femenino',
+        value: 'cis',
+        label: 'Mujer Cis',
     },
     {
         value: 'non_binary',
@@ -13,14 +13,6 @@ export const genderOptions = [
     {
         value: 'transgender',
         label: 'Transgénero',
-    },
-    {
-        value: 'genderfluid',
-        label: 'Género fluido',
-    },
-    {
-        value: 'agender',
-        label: 'Agénero',
     },
     {
         value: 'other',

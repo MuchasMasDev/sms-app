@@ -155,16 +155,8 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
                                 value={address.addresses.street_line_2}
                             />
                             <Detail
-                                label="Número de apartamento"
-                                value={address.addresses.apartment_number}
-                            />
-                            <Detail
-                                label="Código postal"
-                                value={address.addresses.postal_code}
-                            />
-                            <Detail
-                                label="Municipio"
-                                value={address.addresses.municipality}
+                                label="Distrito"
+                                value={address.addresses.district}
                             />
                             <Detail
                                 label="Departamento"
@@ -182,14 +174,13 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
                                 key={index}
                                 className={`mt-4 flex flex-col gap-1 ${data.scholar_phone_numbers && index < data.scholar_phone_numbers.length - 1 && ' border-b-2 border-gray-200 pb-4'}`}
                             >
-                                <BooleanDetail
-                                    label="Teléfono móvil"
-                                    value={phone.is_mobile}
-                                />
-                                <BooleanDetail
-                                    label="Teléfono actual"
-                                    value={phone.is_current}
-                                />
+                                {
+                                    phone.is_current &&
+                                    <BooleanDetail
+                                        label="Teléfono principal"
+                                        value={phone.is_current}
+                                    />
+                                }
                                 <Detail label="Número" value={phone.number} />
                             </div>
                         </>

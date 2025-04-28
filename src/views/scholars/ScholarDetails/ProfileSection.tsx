@@ -1,4 +1,6 @@
 import { UserScholarDetails } from '@/@types/scholar'
+import { useAuth } from '@/auth'
+import { AuthorityCheck } from '@/components/shared'
 import Avatar from '@/components/ui/Avatar/Avatar'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
@@ -19,17 +21,34 @@ type ProfileSectionProps = {
 
 const CustomerInfoField = ({ title, value }: CustomerInfoFieldProps) => {
     return (
-        <div>
+        <div className='flex gap-4 flex-row items-center'>
             <span className="font-semibold">{title}</span>
             <p className="heading-text font-bold">{value}</p>
         </div>
     )
 }
 
+const calculateAge = (dob: string) => {
+    const birthDate = new Date(dob)
+    const today = new Date()
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const monthDifference = today.getMonth() - birthDate.getMonth()
+
+    if (
+        monthDifference < 0 ||
+        (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+        age--
+    }
+
+    return age
+}
+
 const ProfileSection = ({ data }: ProfileSectionProps) => {
     const navigate = useNavigate()
 
     const [isOpen, setIsOpen] = useState(false)
+    const { user } = useAuth()
 
     const handleOpenDrawer = () => {
         setIsOpen(true)
@@ -72,6 +91,10 @@ const ProfileSection = ({ data }: ProfileSectionProps) => {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-y-7 gap-x-4 my-10">
                     <CustomerInfoField
+                        title="Edad"
+                        value={`${calculateAge(data.dob)} años`}
+                    />
+                    <CustomerInfoField
                         title="Código"
                         value={data.user.ref_code}
                     />
@@ -85,16 +108,21 @@ const ProfileSection = ({ data }: ProfileSectionProps) => {
                         value={new Date(data.dob).toLocaleDateString()}
                     />
                 </div>
-                <div className="flex flex-col gap-4">
-                    <Button block variant="solid" onClick={handleOpenDrawer}>
-                        Crear bitácora
-                    </Button>
-                </div>
-                <CreateScholarLog
-                    scholarId={data.id}
-                    isOpen={isOpen}
-                    onDrawerClose={onDrawerClose}
-                />
+                <AuthorityCheck
+                    authority={['ADMIN']}
+                    userAuthority={user.roles}
+                >
+                    <div className="flex flex-col gap-4">
+                        <Button block variant="solid" onClick={handleOpenDrawer}>
+                            Crear bitácora
+                        </Button>
+                    </div>
+                    <CreateScholarLog
+                        scholarId={data.id}
+                        isOpen={isOpen}
+                        onDrawerClose={onDrawerClose}
+                    />
+                </AuthorityCheck>
             </div>
         </Card>
     )

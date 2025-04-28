@@ -13,22 +13,32 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
+        key: 'profile',
+        path: `/profile`,
+        component: lazy(() => import('../../views/auth/Settings')),
+        authority: [],
+    },
+    {
         key: 'adminMenu.scholarsMenu.all',
         path: '/scholars',
-        component: lazy(() => import('@/views/scholars/management/AllScholars')),
-        authority: ['ADMIN']
+        component: lazy(
+            () => import('@/views/scholars/management/AllScholars'),
+        ),
+        authority: ['ADMIN'],
     },
     {
         key: 'adminMenu.scholarsMenu.create',
         path: '/scholars/new',
-        component: lazy(() => import('@/views/scholars/management/ScholarCreate')),
-        authority: ['ADMIN']
+        component: lazy(
+            () => import('@/views/scholars/management/ScholarCreate'),
+        ),
+        authority: ['ADMIN'],
     },
     {
         key: 'scholars.scholarDetails',
         path: `/scholars/details/:id`,
         component: lazy(() => import('../../views/scholars/ScholarDetails')),
-        authority: ['ADMIN']
+        authority: ['ADMIN'],
     },
     /** Example purpose only, please remove */
     // {

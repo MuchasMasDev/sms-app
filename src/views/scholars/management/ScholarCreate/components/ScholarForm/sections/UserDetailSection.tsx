@@ -1,73 +1,29 @@
+import { PatternInput } from '@/components/shared'
+import { Select, Switcher } from '@/components/ui'
+import { Button } from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
-import Input from '@/components/ui/Input'
-import { FormItem } from '@/components/ui/Form'
-import { Controller, ControllerRenderProps } from 'react-hook-form'
 import DatePicker from '@/components/ui/DatePicker'
+import { FormItem } from '@/components/ui/Form'
+import Input from '@/components/ui/Input'
+import { genderOptions } from '@/constants/app.constant'
 import {
     CreateScholarSchemaType,
     FormSectionBaseProps,
 } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
-import { Button } from '@/components/ui/Button'
+import { useEffect } from 'react'
+import { Controller, ControllerRenderProps } from 'react-hook-form'
 import { TbArrowsShuffle } from 'react-icons/tb'
-import { Select } from '@/components/ui'
-import { PatternInput } from '@/components/shared'
-import { genderOptions } from '@/constants/app.constant'
 
 type CustomerDetailSectionProps = FormSectionBaseProps & {
-    disability?: string
+    disability?: boolean,
+    onChangeDisability?: () => void
 }
-
-const disabilityOptions = [
-    {
-        label: 'Sin discapacidad',
-        value: 'false',
-    },
-    {
-        label: 'Discapacidad visual',
-        value: 'Discapacidad visual',
-    },
-    {
-        label: 'Discapacidad auditiva',
-        value: 'Discapacidad auditiva',
-    },
-    {
-        label: 'Discapacidad motriz',
-        value: 'Discapacidad motriz',
-    },
-    {
-        label: 'Discapacidad intelectual',
-        value: 'Discapacidad intelectual',
-    },
-    {
-        label: 'Discapacidad psicosocial',
-        value: 'Discapacidad psicosocial',
-    },
-    {
-        label: 'Discapacidad del habla',
-        value: 'Discapacidad del habla',
-    },
-    {
-        label: 'Discapacidad neurológica',
-        value: 'Discapacidad neurológica',
-    },
-    {
-        label: 'Enfermedad crónica discapacitante',
-        value: 'Enfermedad crónica discapacitante',
-    },
-    {
-        label: 'Discapacidad múltiple',
-        value: 'Discapacidad múltiple',
-    },
-    {
-        label: 'Otra discapacidad',
-        value: 'Otra discapacidad',
-    },
-]
 
 const UserDetailSection = ({
     control,
     errors,
     disability,
+    onChangeDisability,
 }: CustomerDetailSectionProps) => {
     const generateNewPassword = (
         control: ControllerRenderProps<CreateScholarSchemaType>,
@@ -84,9 +40,13 @@ const UserDetailSection = ({
             .join('')
     }
 
+    useEffect(() => {
+        if (!disability) onChangeDisability?.()
+    }, [disability, onChangeDisability])
+
     return (
         <Card id="customerDetails">
-            <h4 className="mb-6">Detalles personales</h4>
+            <h4 className="mb-6">Datos personales</h4>
 
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
@@ -272,26 +232,14 @@ const UserDetailSection = ({
             <div className="grid md:grid-cols-2 gap-4">
 
                 <FormItem
-                    label="Discapacidad"
+                    label="¿Presenta alguna discapacidad?"
                     invalid={Boolean(errors.hasDisability)}
                     errorMessage={errors.hasDisability?.message}
                 >
                     <Controller
                         name="hasDisability"
                         control={control}
-                        render={({ field }) => (
-                            <Select
-                                placeholder={'Selecciona...'}
-                                options={disabilityOptions}
-                                {...field}
-                                value={disabilityOptions.find(
-                                    (option) => option.value === field.value,
-                                )}
-                                onChange={(selected) => {
-                                    field.onChange(selected?.value ?? '')
-                                }}
-                            />
-                        )}
+                        render={({ field }) => <Switcher {...field} />}
                     />
                 </FormItem>
 
@@ -302,7 +250,7 @@ const UserDetailSection = ({
                 >
                     <Controller
                         name="disabilityDescription"
-                        disabled={!disability || disability === 'false'}
+                        disabled={!disability}
                         control={control}
                         render={({ field }) => (
                             <Input

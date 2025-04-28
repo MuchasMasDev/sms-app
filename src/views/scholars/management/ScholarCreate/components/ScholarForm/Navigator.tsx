@@ -5,20 +5,20 @@ import { TbUserSquare, TbMapPin, TbBuildingBank, TbMedicalCross, TbPhone } from 
 
 const navigationList = [
     {
-        label: 'Detalles personales',
+        label: 'Datos personales',
         description: 'Estos datos serán utilizados para la creación de credenciales para el sistema.',
         link: 'customerDetails',
         icon: <TbUserSquare />,
     },
     {
-        label: 'Contacto de Emergencia',
+        label: 'Contacto de emergencia',
         description: 'Persona a quién llamar en caso que la becaria tenga una emergencia.',
         link: 'emergencyContact',
         icon: <TbMedicalCross />,
     },
     {
         label: 'Residencia',
-        description: 'Dirección de residencia de origen de la becaria.',
+        description: 'Direcciones de residencia de la becaria.',
         link: 'addressInformation',
         icon: <TbMapPin />,
     },

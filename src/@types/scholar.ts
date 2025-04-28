@@ -3,10 +3,8 @@ export type BankAccountType = 'SAVINGS' | 'CURRENT';
 export interface Address {
   street_line_1: string;
   street_line_2: string | null;
-  apartment_number: string | null;
-  postal_code: string | null;
   is_urban: boolean;
-  municipality: string;
+  district: string;
   department: string;
 }
 
@@ -16,7 +14,6 @@ export interface ScholarAddress {
 }
 
 export interface ScholarPhoneNumber {
-  is_mobile: boolean;
   is_current: boolean;
   number: string;
 }

@@ -4,11 +4,9 @@ import { z } from 'zod'
 export const CreateAddressDtoSchema = z.object({
     streetLine1: z.string().min(1, 'La línea de dirección 1 es obligatoria'),
     streetLine2: z.string().optional(),
-    apartmentNumber: z.string().optional(),
-    postalCode: z.string().optional(),
-    municipalityId: z
+    districtId: z
         .number()
-        .int('El ID de municipio debe ser un número entero'),
+        .int('El ID del distrito debe ser un número entero'),
     isUrban: z.boolean().default(false),
 })
 
@@ -16,7 +14,6 @@ export type CreateAddressSchemaType = z.infer<typeof CreateAddressDtoSchema>
 
 export const CreatePhoneNumberDtoSchema = z.object({
     number: z.string().min(1, 'El número de teléfono es obligatorio'),
-    isMobile: z.boolean().default(true).optional(),
     isCurrent: z.boolean().default(true).optional(),
 })
 
@@ -26,6 +23,7 @@ export type CreatePhoneNumberSchemaType = z.infer<
 
 export const CreateBankAccountDtoSchema = z.object({
     accountNumber: z.string().min(1, 'El número de cuenta es obligatorio'),
+    accountHolder: z.string().min(1, 'El titular de la cuenta es obligatorio'),
     accountType: z.enum(['SAVINGS', 'CURRENT'] as const),
     bankId: z.number().int('El ID de banco debe ser un número entero'),
     isPrimary: z.boolean().default(true).optional(),
@@ -48,13 +46,13 @@ export const CreateScholarSchema = z
         lastName: z.string().min(1, 'El apellido es obligatorio'),
         dob: z.date({ message: 'La fecha de nacimiento no debe ir vacía' }),
         gender: z.string().min(1, 'Selecciona la discapacidad'),
-        hasDisability: z.string(),
+        hasDisability: z.boolean(),
         disabilityDescription: z
             .string()
             .max(500, 'Máximo 500 caracteres')
             .optional(),
         numberOfChildren: z.string().optional().default('0'),
-        dui: z.string().max(9, 'Máximo 9 caracteres').optional(),
+        dui: z.string().max(10, 'Máximo 9 caracteres').optional(),
         ingressDate: z.date({ message: 'La fecha de ingreso no debe ir vacía' }),
         emergencyContactName: z
             .string()
@@ -72,7 +70,8 @@ export const CreateScholarSchema = z
             .array(CreateAddressDtoSchema)
             .min(1, 'Se requiere al menos una dirección'),
         phoneNumbers: z
-            .array(CreatePhoneNumberDtoSchema),
+            .array(CreatePhoneNumberDtoSchema)
+            .min(1, 'Se requiere al menos un número de contacto'),
         bankAccounts: z
             .array(CreateBankAccountDtoSchema)
             .min(1, 'Se requiere al menos una cuenta bancaria'),
@@ -80,8 +79,9 @@ export const CreateScholarSchema = z
     .refine(
         (data) => {
             if (
-                data.hasDisability !== 'Sin discapacidad' &&
-                data.hasDisability !== 'false'
+                data.hasDisability !== false &&
+                data.hasDisability !== undefined &&
+                data.hasDisability !== null
             ) {
                 return (
                     data.disabilityDescription &&
@@ -95,19 +95,6 @@ export const CreateScholarSchema = z
             path: ['disabilityDescription'],
         },
     )
-    .transform((data) => {
-        if (
-            data.hasDisability !== 'Sin discapacidad' &&
-            data.hasDisability !== 'false' &&
-            data.disabilityDescription
-        ) {
-            return {
-                ...data,
-                disabilityDescription: `${data.hasDisability}: ${data.disabilityDescription}`,
-            }
-        }
-        return data
-    })
 
 export type CreateScholarSchemaType = z.infer<typeof CreateScholarSchema>
 

@@ -1,11 +1,10 @@
-import Card from '@/components/ui/Card'
+import { User } from '@/@types/auth'
 import Loading from '@/components/shared/Loading'
+import Card from '@/components/ui/Card'
+import { apiGetScholarLogBook } from '@/services/ScholarService'
 import dayjs from 'dayjs'
 import isEmpty from 'lodash/isEmpty'
 import useSWR from 'swr'
-import { apiGetScholarLogBook } from '@/services/ScholarService'
-import { User } from '@/@types/auth'
-import Avatar from '@/components/ui/Avatar/Avatar'
 
 // Define the structure of a single log entry
 type LogEntry = {

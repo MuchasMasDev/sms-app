@@ -20,7 +20,8 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import FinancialSection from './sections/FinancialSection'
 import PhoneNumberSection from './sections/PhoneNumberSection'
-import ResidenceSection from './sections/ResidenceSection'
+import OriginResidenceSection from './sections/OriginResidenceSection'
+import CurrentResidenceSection from './sections/CurrentResidenceSection'
 
 type ScholarFormProps = {
     children: ReactNode
@@ -49,6 +50,7 @@ const ScholarForm = (props: ScholarFormProps) => {
 
     const {
         handleSubmit,
+        setValue,
         reset,
         watch,
         formState: { errors },
@@ -60,7 +62,7 @@ const ScholarForm = (props: ScholarFormProps) => {
         resolver: zodResolver(CreateScholarSchema),
     })
 
-    const hasDisability = watch('hasDisability', '')
+    const hasDisability = watch('hasDisability', false)
 
     return (
         <div className="flex">
@@ -86,12 +88,17 @@ const ScholarForm = (props: ScholarFormProps) => {
                                     control={control}
                                     errors={errors}
                                     disability={hasDisability}
+                                    onChangeDisability={() => { setValue('disabilityDescription', '') }}
                                 />
                                 <EmergencyContactSection
                                     control={control}
                                     errors={errors}
                                 />
-                                <ResidenceSection
+                                <OriginResidenceSection
+                                    control={control}
+                                    errors={errors}
+                                />
+                                <CurrentResidenceSection
                                     control={control}
                                     errors={errors}
                                 />

@@ -9,11 +9,14 @@ import isEmpty from 'lodash/isEmpty'
 import { apiGetScholar } from '@/services/ScholarService'
 import { UserScholarDetails } from '@/@types/scholar'
 import DetailsSection from '@/views/scholars/ScholarDetails/DetailsSection'
+import { AuthorityCheck } from '@/components/shared'
+import { useAuth } from '@/auth'
 
 const { TabNav, TabList, TabContent } = Tabs
 
 const ScholarDetails = () => {
     const { id } = useParams()
+    const { user } = useAuth()
 
     const { data, isLoading } = useSWR(id ? `/api/scholars/${id}` : null, () =>
         apiGetScholar<UserScholarDetails, { id: string }>({
@@ -32,7 +35,12 @@ const ScholarDetails = () => {
                         <Tabs defaultValue="detalles">
                             <TabList>
                                 <TabNav value="detalles">Detalles</TabNav>
-                                <TabNav value="activity">Notas</TabNav>
+                                <AuthorityCheck
+                                    authority={['ADMIN']}
+                                    userAuthority={user.roles}
+                                >
+                                    <TabNav value="activity">Notas</TabNav>
+                                </AuthorityCheck>
                             </TabList>
                             <div className="p-4">
                                 <TabContent value="detalles">
