@@ -7,6 +7,7 @@ import type {
     ResetPassword,
     SignInResponse,
     SignUpResponse,
+    UpdateUser,
 } from '@/@types/auth'
 
 export async function apiSignIn(data: SignInCredential) {
@@ -44,6 +45,14 @@ export async function apiResetPassword<T>(data: ResetPassword) {
     return ApiService.fetchDataWithAxios<T>({
         url: endpointConfig.auth.prefix + endpointConfig.auth.routes.resetPassword,
         method: 'post',
+        data,
+    })
+}
+
+export async function apiUpdateUser<T>(data: UpdateUser) {
+    return ApiService.fetchDataWithAxios<T>({
+        url: endpointConfig.auth.routes.updateUser + data.id,
+        method: 'patch',
         data,
     })
 }

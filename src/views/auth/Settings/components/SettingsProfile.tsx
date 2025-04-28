@@ -1,44 +1,28 @@
-import { useEffect, useMemo } from 'react'
-import Button from '@/components/ui/Button'
-import Upload from '@/components/ui/Upload'
-import Input from '@/components/ui/Input'
-import Select, { Option as DefaultOption } from '@/components/ui/Select'
+import { User } from '@/@types/auth'
+import { useAuth } from '@/auth'
 import Avatar from '@/components/ui/Avatar'
+import Button from '@/components/ui/Button'
 import { Form, FormItem } from '@/components/ui/Form'
-import NumericInput from '@/components/shared/NumericInput'
-import { countryList } from '@/constants/countries.constant'
-import type { ControlProps, OptionProps } from 'react-select'
-import { components } from 'react-select'
+import Input from '@/components/ui/Input'
+import Upload from '@/components/ui/Upload'
+import { apiUpdateUser } from '@/services/AuthService'
 import sleep from '@/utils/sleep'
-import useSWR from 'swr'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import type { ZodType } from 'zod'
-import { z } from 'zod'
 import { HiOutlineUser } from 'react-icons/hi'
 import { TbPlus } from 'react-icons/tb'
-import type { GetSettingsProfileResponse } from '../types'
+import { toast } from 'sonner'
+import type { ZodType } from 'zod'
+import { z } from 'zod'
 
 type ProfileSchema = {
     firstName: string
     lastName: string
     email: string
-    dialCode: string
-    phoneNumber: string
     img: string
-    country: string
-    address: string
-    postcode: string
-    city: string
 }
 
-type CountryOption = {
-    label: string
-    dialCode: string
-    value: string
-}
-
-const { Control } = components
 
 const validationSchema: ZodType<ProfileSchema> = z.object({
     firstName: z.string().min(1, { message: 'First name required' }),
@@ -47,44 +31,11 @@ const validationSchema: ZodType<ProfileSchema> = z.object({
         .string()
         .min(1, { message: 'Email required' })
         .email({ message: 'Invalid email' }),
-    dialCode: z.string().min(1, { message: 'Please select your country code' }),
-    phoneNumber: z
-        .string()
-        .min(1, { message: 'Please input your mobile number' }),
-    country: z.string().min(1, { message: 'Please select a country' }),
-    address: z.string().min(1, { message: 'Addrress required' }),
-    postcode: z.string().min(1, { message: 'Postcode required' }),
-    city: z.string().min(1, { message: 'City required' }),
     img: z.string(),
 })
 
-const CustomControl = ({ children, ...props }: ControlProps<CountryOption>) => {
-    const selected = props.getValue()[0]
-    return (
-        <Control {...props}>
-            {selected && (
-                <Avatar
-                    className="ltr:ml-4 rtl:mr-4"
-                    shape="circle"
-                    size={20}
-                    src={`/img/countries/${selected.value}.png`}
-                />
-            )}
-            {children}
-        </Control>
-    )
-}
-
 const SettingsProfile = () => {
-    const { data, mutate } = useSWR(
-        '/api/settings/profile/',
-        () => apiGetSettingsProfile<GetSettingsProfileResponse>(),
-        {
-            revalidateOnFocus: false,
-            revalidateIfStale: false,
-            revalidateOnReconnect: false,
-        },
-    )
+    const { user } = useAuth()
 
     const beforeUpload = (files: FileList | null) => {
         let valid: string | boolean = true
@@ -111,17 +62,39 @@ const SettingsProfile = () => {
     })
 
     useEffect(() => {
-        if (data) {
-            reset(data)
+        if (user) {
+            reset({
+                firstName: user.first_name || '',
+                lastName: user.last_name || '',
+                email: user.email || '',
+                img: ''
+            })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data])
+    }, [user])
 
     const onSubmit = async (values: ProfileSchema) => {
         await sleep(500)
-        if (data) {
-            mutate({ ...data, ...values }, false)
+        let response: User | null = null
+        if (user)
+            response = await apiUpdateUser({
+                id: user.id || '',
+                firstName: values.firstName,
+                lastName: values.lastName,
+                email: values.email,
+            })
+
+        if (response) {
+            toast.success(`${response.first_name}, tu perfil ha sido actualizado correctamente`)
         }
+
+
+        reset({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            img: values.img,
+        })
     }
 
     return (

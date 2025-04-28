@@ -36,6 +36,13 @@ export type ResetPassword = {
     password: string
 }
 
+export type UpdateUser = {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+}
+
 export type AuthRequestStatus = 'success' | 'failed' | ''
 
 export type AuthResult = Promise<{
