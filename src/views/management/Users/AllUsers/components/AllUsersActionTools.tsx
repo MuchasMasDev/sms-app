@@ -21,7 +21,6 @@ const AllUsersActionTools = () => {
         try {
             await apiSignUp({
                 ...data,
-                role: data.roles[0],
                 password: data.password!,
             })
 
