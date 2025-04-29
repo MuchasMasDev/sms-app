@@ -1,3 +1,5 @@
+import { Authorities } from "@/@types/auth"
+
 export const APP_NAME = 'Muchas Más SGB'
 export const REDIRECT_URL_KEY = 'redirectUrl'
 
@@ -19,3 +21,41 @@ export const genderOptions = [
         label: 'Otro',
     },
 ]
+
+export const roleOptions: {
+    value: Authorities
+    label: string
+}[] = [
+        {
+            value: 'ADMIN',
+            label: 'Administradora',
+        },
+        {
+            value: 'ACADEMIC',
+            label: 'Académica',
+        },
+        {
+            value: 'FINANCE',
+            label: 'Financiera',
+        },
+        {
+            value: 'PSY',
+            label: 'Psicóloga',
+        },
+        {
+            value: 'SCHOLAR',
+            label: 'Becaria',
+        },
+        {
+            value: 'SPC',
+            label: 'Coordinadora de programa',
+        },
+        {
+            value: 'SPCA',
+            label: 'Auxiliar de coordinadora',
+        },
+        {
+            value: 'TUTOR',
+            label: 'Tutor / Tutora',
+        },
+    ]

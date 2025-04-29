@@ -1,41 +1,36 @@
 import { Drawer } from '@/components/ui'
 import Button from '@/components/ui/Button'
-import { useBanks } from '@/modules/catalogs'
+import useAllUsers from '@/modules/users/hooks/useAllScholars'
+import { apiSignUp } from '@/services/AuthService'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { TbCloudDownload, TbPlus } from 'react-icons/tb'
-import BankForm, { bankFormSchemaType } from './BankForm'
-import { apiCreateCatalogItem, Bank, Catalog } from '@/services/CatalogService'
 import { toast } from 'sonner'
+import UserForm, { userFormSchemaType } from './UserForm'
 
-const BanksActionTools = () => {
+const AllUsersActionTools = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const { items, mutate } = useBanks()
+    const { userList, mutate } = useAllUsers()
 
     const onDrawerClose = () => {
         setIsOpen(false)
     }
 
-    const onSubmit = async (data: bankFormSchemaType) => {
-
-        const formData = new FormData()
-        if (data.name)
-            formData.append('name', data.name)
-        if (data.file && data.file.length > 0)
-            formData.append('file', data.file[0])
+    const onSubmit = async (data: userFormSchemaType) => {
 
         try {
-            await apiCreateCatalogItem<Bank, Bank>(
-                Catalog.Banks,
-                formData
-            );
+            await apiSignUp({
+                ...data,
+                role: data.roles[0],
+                password: data.password!,
+            })
 
-            toast.success('Banco creado correctamente')
+            toast.success('Usuaria creado correctamente')
             setIsOpen(false)
             mutate()
 
         } catch (error) {
-            toast.error('Error creando banco')
+            toast.error('Error creando usuaria')
             console.error('Error creating bank:', error);
         }
 
@@ -45,13 +40,8 @@ const BanksActionTools = () => {
         <div className="flex flex-col md:flex-row gap-3">
             <CSVLink
                 className="w-full"
-                filename={`SGB_bancos_${new Date().toISOString().split('T')[0]}.xlsx`}
-                data={items}
-                headers={[
-                    { label: 'ID', key: 'id' },
-                    { label: 'Nombre', key: 'name' },
-                    { label: 'URL del logo', key: 'logo_src' },
-                ]}
+                filename={`reporte_usuarios_${new Date().toISOString().split('T')[0]}.xlsx`}
+                data={userList}
             >
                 <Button
                     icon={<TbCloudDownload className="text-xl" />}
@@ -69,12 +59,12 @@ const BanksActionTools = () => {
             </Button>
 
             <Drawer
-                title="Crear nuevo banco"
+                title="Crear nuevo usuaria"
                 isOpen={isOpen}
                 onClose={onDrawerClose}
                 onRequestClose={onDrawerClose}
             >
-                <BankForm
+                <UserForm
                     onSubmit={onSubmit}
                 />
             </Drawer>
@@ -82,4 +72,4 @@ const BanksActionTools = () => {
     )
 }
 
-export default BanksActionTools
+export default AllUsersActionTools

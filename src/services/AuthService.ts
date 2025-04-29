@@ -8,6 +8,7 @@ import type {
     SignInResponse,
     SignUpResponse,
     UpdateUser,
+    Authorities,
 } from '@/@types/auth'
 
 export async function apiSignIn(data: SignInCredential) {
@@ -54,6 +55,14 @@ export async function apiUpdateUser<T>(data: UpdateUser) {
         url: endpointConfig.auth.routes.updateUser + data.id,
         method: 'patch',
         data,
+    })
+}
+
+export async function apiUpdateUserRoles<T>(roles: Authorities[], id: string) {
+    return ApiService.fetchDataWithAxios<T>({
+        url: '/users/' + id + '/roles',
+        method: 'patch',
+        data: { roles },
     })
 }
 

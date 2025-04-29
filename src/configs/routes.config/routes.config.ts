@@ -20,6 +20,12 @@ export const protectedRoutes: Routes = [
     },
     // ADMIN MENU
     {
+        key: 'adminMenu.users.all',
+        path: '/users',
+        component: lazy(() => import('@/views/management/Users/AllUsers')),
+        authority: ['ADMIN'],
+    },
+    {
         key: 'adminMenu.scholarsMenu.all',
         path: '/scholars',
         component: lazy(
