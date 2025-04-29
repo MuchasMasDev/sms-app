@@ -18,6 +18,7 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('../../views/auth/Settings')),
         authority: [],
     },
+    // ADMIN MENU
     {
         key: 'adminMenu.scholarsMenu.all',
         path: '/scholars',
@@ -40,6 +41,7 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('../../views/scholars/ScholarDetails')),
         authority: ['ADMIN'],
     },
+    // APP CATALOGS
     {
         key: 'catalogs.banks',
         path: `/catalogs/banks`,

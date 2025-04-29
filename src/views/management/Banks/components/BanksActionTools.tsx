@@ -1,13 +1,45 @@
+import { Drawer } from '@/components/ui'
 import Button from '@/components/ui/Button'
 import { useBanks } from '@/modules/catalogs'
+import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { TbCloudDownload, TbPlus } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
+import BankForm, { bankFormSchemaType } from './BankForm'
+import { apiCreateCatalogItem, Bank, Catalog } from '@/services/CatalogService'
+import { toast } from 'sonner'
 
-const BanksActionTools = () => {
-    const navigate = useNavigate()
-
+const BanksActionTools = ({ onUpdate }: { onUpdate?: () => void }) => {
+    const [isOpen, setIsOpen] = useState(false)
     const { items } = useBanks()
+
+    const onDrawerClose = () => {
+        setIsOpen(false)
+    }
+
+    const onSubmit = async (data: bankFormSchemaType) => {
+
+        const formData = new FormData()
+        if (data.name)
+            formData.append('name', data.name)
+        if (data.file && data.file.length > 0)
+            formData.append('file', data.file[0])
+
+        try {
+            await apiCreateCatalogItem<Bank, Bank>(
+                Catalog.Banks,
+                formData
+            );
+
+            toast.success('Banco creado correctamente')
+            setIsOpen(false)
+            onUpdate && onUpdate()
+
+        } catch (error) {
+            toast.error('Error creando banco')
+            console.error('Error creating bank:', error);
+        }
+
+    }
 
     return (
         <div className="flex flex-col md:flex-row gap-3">
@@ -31,10 +63,21 @@ const BanksActionTools = () => {
             <Button
                 variant="solid"
                 icon={<TbPlus className="text-xl" />}
-                onClick={() => navigate('/bank/new')}
+                onClick={() => setIsOpen(true)}
             >
                 Agregar nuevo registro
             </Button>
+
+            <Drawer
+                title="Editar banco"
+                isOpen={isOpen}
+                onClose={onDrawerClose}
+                onRequestClose={onDrawerClose}
+            >
+                <BankForm
+                    onSubmit={onSubmit}
+                />
+            </Drawer>
         </div>
     )
 }
