@@ -54,7 +54,7 @@ const EmergencyContactSection = ({
     control,
     errors,
 }: CustomerDetailSectionProps) => {
-    const [phoneValue, setPhoneValue] = useState('')
+    const [phoneValue, setPhoneValue] = useState(control._defaultValues.emergencyContactPhone ?? '')
 
     return (
         <Card id="emergencyContact">

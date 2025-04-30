@@ -25,6 +25,7 @@ export interface Bank {
 
 export interface BankAccount {
   account_number: string;
+  account_holder: string;
   is_primary: boolean;
   account_type: BankAccountType;
   bank: Bank;

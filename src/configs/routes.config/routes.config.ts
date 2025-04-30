@@ -42,6 +42,14 @@ export const protectedRoutes: Routes = [
         authority: ['ADMIN'],
     },
     {
+        key: 'adminMenu.scholarsMenu.edit',
+        path: '/scholars/edit/:id',
+        component: lazy(
+            () => import('@/views/scholars/management/ScholarEdit'),
+        ),
+        authority: ['ADMIN'],
+    },
+    {
         key: 'scholars.scholarDetails',
         path: `/scholars/details/:id`,
         component: lazy(() => import('../../views/scholars/ScholarDetails')),

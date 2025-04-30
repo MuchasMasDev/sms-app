@@ -14,9 +14,7 @@ import {
 import EmergencyContactSection from '@/views/scholars/management/ScholarCreate/components/ScholarForm/sections/EmergencyContactSection'
 import UserDetailSection from '@/views/scholars/management/ScholarCreate/components/ScholarForm/sections/UserDetailSection'
 import { zodResolver } from '@hookform/resolvers/zod'
-import isEmpty from 'lodash/isEmpty'
 import type { ReactNode } from 'react'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import FinancialSection from './sections/FinancialSection'
 import PhoneNumberSection from './sections/PhoneNumberSection'
@@ -37,13 +35,6 @@ const ScholarForm = (props: ScholarFormProps) => {
 
     const { larger } = useResponsive()
 
-    useEffect(() => {
-        if (!isEmpty(defaultValues)) {
-            reset(defaultValues)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     const onSubmit = (values: CreateScholarSchemaType) => {
         onFormSubmit?.(values)
     }
@@ -51,7 +42,6 @@ const ScholarForm = (props: ScholarFormProps) => {
     const {
         handleSubmit,
         setValue,
-        reset,
         watch,
         formState: { errors },
         control,
@@ -62,7 +52,7 @@ const ScholarForm = (props: ScholarFormProps) => {
         resolver: zodResolver(CreateScholarSchema),
     })
 
-    const hasDisability = watch('hasDisability', false)
+    const hasDisability = watch('hasDisability', defaultValues?.hasDisability)
 
     return (
         <div className="flex">

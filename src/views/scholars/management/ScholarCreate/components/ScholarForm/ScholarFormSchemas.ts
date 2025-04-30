@@ -41,7 +41,7 @@ export const CreateScholarSchema = z
             .email('Correo electrónico inválido'),
         password: z
             .string()
-            .min(8, 'La contraseña debe tener al menos 8 caracteres'),
+            .optional(),
         firstName: z.string().min(1, 'El nombre es obligatorio'),
         lastName: z.string().min(1, 'El apellido es obligatorio'),
         dob: z.date({ message: 'La fecha de nacimiento no debe ir vacía' }),

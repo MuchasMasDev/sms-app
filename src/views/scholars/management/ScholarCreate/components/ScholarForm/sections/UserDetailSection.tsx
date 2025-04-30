@@ -109,7 +109,7 @@ const UserDetailSection = ({
                 </FormItem>
 
                 <FormItem
-                    label="Contraseña"
+                    label={"Contraseña"}
                     invalid={Boolean(errors.password)}
                     errorMessage={errors.password?.message}
                 >
@@ -117,23 +117,34 @@ const UserDetailSection = ({
                         name="password"
                         control={control}
                         render={({ field }) => (
-                            <div className={`flex gap-1`}>
-                                <Input
-                                    type="text"
-                                    autoComplete="off"
-                                    placeholder="Súper contraseña"
-                                    {...field}
-                                />
-                                <Button
-                                    type="button"
-                                    variant={'plain'}
-                                    onClick={() => {
-                                        generateNewPassword(field)
-                                    }}
-                                >
-                                    <TbArrowsShuffle size={24} />
-                                </Button>
-                            </div>
+                            <>
+                                {/* Only show password field if it's empty */}
+                                {!field.value ? (
+                                    <div className={`flex gap-1`}>
+                                        <Input
+                                            type="text"
+                                            autoComplete="off"
+                                            placeholder="Súper contraseña"
+                                            {...field}
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant={'plain'}
+                                            onClick={() => {
+                                                generateNewPassword(field)
+                                            }}
+                                        >
+                                            <TbArrowsShuffle size={24} />
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <Input
+                                        disabled
+                                        type="text"
+                                        placeholder="Contraseña ya definida"
+                                    />
+                                )}
+                            </>
                         )}
                     />
                 </FormItem>
@@ -239,7 +250,7 @@ const UserDetailSection = ({
                     <Controller
                         name="hasDisability"
                         control={control}
-                        render={({ field }) => <Switcher {...field} />}
+                        render={({ field }) => <Switcher {...field} checked={field.value} />}
                     />
                 </FormItem>
 

@@ -58,7 +58,7 @@ const AllUsersActionTools = () => {
             </Button>
 
             <Drawer
-                title="Crear nuevo usuaria"
+                title="Crear nueva usuaria"
                 isOpen={isOpen}
                 onClose={onDrawerClose}
                 onRequestClose={onDrawerClose}
