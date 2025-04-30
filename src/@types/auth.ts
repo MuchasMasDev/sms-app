@@ -68,6 +68,7 @@ export type User = {
     first_name?: string | null
     last_name?: string | null
     email?: string | null
+    profile_img_src?: string | null
     roles?: Authorities[]
 }
 

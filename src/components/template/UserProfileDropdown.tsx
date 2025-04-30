@@ -22,7 +22,7 @@ const dropdownItemList: DropdownList[] = [
 ]
 
 const _UserDropdown = () => {
-    const { first_name, last_name, email, ref_code } = useSessionUser(
+    const { first_name, last_name, email, ref_code, profile_img_src } = useSessionUser(
         (state) => state.user,
     )
 
@@ -33,6 +33,7 @@ const _UserDropdown = () => {
     }
 
     const avatarProps = {
+        src: profile_img_src ?? '',
         icon: <PiUserDuotone />,
     }
 

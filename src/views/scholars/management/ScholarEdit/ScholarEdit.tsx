@@ -4,7 +4,7 @@ import Container from '@/components/shared/Container'
 import Loading from '@/components/shared/Loading'
 import Button from '@/components/ui/Button'
 import { apiGetScholar } from '@/services/ScholarService'
-import sleep from '@/utils/sleep'
+import { apiUpdateScholar } from '@/services/ScholarsService'
 import { CreateScholarSchemaType } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
 import ScholarForm from '@/views/scholars/management/ScholarCreate/components/ScholarForm/ScholarForm'
 import { useState } from 'react'
@@ -14,15 +14,11 @@ import { toast } from 'sonner'
 import useSWR from 'swr'
 
 const transformScholarData = (data: UserScholarDetails | undefined): CreateScholarSchemaType | undefined => {
-    console.log('Transforming scholar data', data);
-
     if (!data) return undefined;
 
-    // Convert string dates to Date objects
     const dobDate = data.dob ? new Date(data.dob) : new Date();
     const ingressDate = data.ingress_date ? new Date(data.ingress_date) : new Date();
 
-    // Transform to format expected by ScholarForm
     const transformedData: CreateScholarSchemaType = {
         email: data.user.email,
         password: 'Password123', // Empty password for editing
@@ -65,7 +61,7 @@ const ScholarEdit = () => {
     const navigate = useNavigate()
     const { id } = useParams()
 
-    const { data, isLoading } = useSWR(id ? `/api/scholars/${id}` : null, () =>
+    const { data, isLoading, mutate } = useSWR(id ? `/api/scholars/${id}` : null, () =>
         apiGetScholar<UserScholarDetails, { id: string }>({
             id: id as string,
         }),
@@ -80,9 +76,11 @@ const ScholarEdit = () => {
     const handleFormSubmit = async (values: CreateScholarSchemaType) => {
         setIsSubmiting(true)
         try {
-            console.log('Updating scholar with values', values);
-            sleep(5000)
-            toast.success('Becaria actualizada correctamente')
+            const response = await apiUpdateScholar(values, id as string)
+            if (response) {
+                mutate()
+                toast.success('Becaria actualizada correctamente')
+            }
         }
         catch (error) {
             console.error('Error updating scholar', error)

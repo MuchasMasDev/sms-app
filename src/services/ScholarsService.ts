@@ -32,6 +32,24 @@ export async function apiCreateScholar(
     })
 }
 
+export async function apiUpdateScholar(
+    params: CreateScholarSchemaType,
+    id: string,
+) {
+    return ApiService.fetchDataWithAxios({
+        url: endpointConfig.scholars.prefix + id,
+        method: 'patch',
+        data: {
+            ...params,
+            dob: params.dob.toISOString(),
+            ingressDate: params.ingressDate.toISOString(),
+            numberOfChildren: +params.numberOfChildren,
+            hasDisability: params.hasDisability,
+            "state": "ACTIVE"
+        },
+    })
+}
+
 export async function apiCreateScholarLog(data: Log, scholarId: string) {
     return ApiService.fetchDataWithAxios({
         url: endpointConfig.scholarsLogBook.prefix + endpointConfig.scholarsLogBook.routes.create + scholarId,

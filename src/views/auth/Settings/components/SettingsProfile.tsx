@@ -6,8 +6,9 @@ import { Form, FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 import Upload from '@/components/ui/Upload'
 import { apiUpdateUser } from '@/services/AuthService'
+import { apiUpdateUserPhoto } from '@/services/UserService'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { HiOutlineUser } from 'react-icons/hi'
 import { TbPlus } from 'react-icons/tb'
@@ -22,7 +23,6 @@ type ProfileSchema = {
     img: string
 }
 
-
 const validationSchema: ZodType<ProfileSchema> = z.object({
     firstName: z.string().min(1, { message: 'First name required' }),
     lastName: z.string().min(1, { message: 'Last name required' }),
@@ -34,7 +34,8 @@ const validationSchema: ZodType<ProfileSchema> = z.object({
 })
 
 const SettingsProfile = () => {
-    const { user } = useAuth()
+    const { user, setUser } = useAuth()
+    const [isUploading, setIsUploading] = useState(false)
 
     const beforeUpload = (files: FileList | null) => {
         let valid: string | boolean = true
@@ -43,7 +44,7 @@ const SettingsProfile = () => {
         if (files) {
             for (const file of files) {
                 if (!allowedFileType.includes(file.type)) {
-                    valid = 'Please upload a .jpeg or .png file!'
+                    valid = 'El formato de la imagen no es válido'
                 }
             }
         }
@@ -51,9 +52,38 @@ const SettingsProfile = () => {
         return valid
     }
 
+    const handlePhotoChange = async (files: File[]) => {
+        if (files.length > 0 && user) {
+            try {
+                setIsUploading(true)
+                // Create FormData object
+                const formData = new FormData()
+                formData.append('file', files[0])
+
+                // Upload photo and get new photo URL
+                await apiUpdateUserPhoto<User>({
+                    data: formData,
+                    id: user.id || '',
+                }).then((response) => {
+                    setUser(response)
+                })
+
+                setValue('img', URL.createObjectURL(files[0]))
+
+                toast.success('Foto de perfil actualizada correctamente')
+            } catch (error) {
+                console.error('Error uploading photo:', error)
+                toast.error('Error al subir la foto de perfil')
+            } finally {
+                setIsUploading(false)
+            }
+        }
+    }
+
     const {
         handleSubmit,
         reset,
+        setValue,
         formState: { errors, isSubmitting },
         control,
     } = useForm<ProfileSchema>({
@@ -66,7 +96,7 @@ const SettingsProfile = () => {
                 firstName: user.first_name || '',
                 lastName: user.last_name || '',
                 email: user.email || '',
-                img: ''
+                img: user.profile_img_src || ''
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,17 +105,17 @@ const SettingsProfile = () => {
     const onSubmit = async (values: ProfileSchema) => {
         let response: User | null = null
         if (user)
-            response = await apiUpdateUser({
+            response = await apiUpdateUser<User>({
                 id: user.id || '',
                 firstName: values.firstName,
                 lastName: values.lastName,
-                email: values.email,
+                email: values.email
             })
 
         if (response) {
+            setUser(response)
             toast.success(`${response.first_name}, tu perfil ha sido actualizado correctamente`)
         }
-
 
         reset({
             firstName: values.firstName,
@@ -116,34 +146,19 @@ const SettingsProfile = () => {
                                         showList={false}
                                         uploadLimit={1}
                                         beforeUpload={beforeUpload}
-                                        onChange={(files) => {
-                                            if (files.length > 0) {
-                                                field.onChange(
-                                                    URL.createObjectURL(
-                                                        files[0],
-                                                    ),
-                                                )
-                                            }
-                                        }}
+                                        disabled={isUploading}
+                                        onChange={handlePhotoChange}
                                     >
                                         <Button
                                             variant="solid"
                                             size="sm"
                                             type="button"
                                             icon={<TbPlus />}
+                                            loading={isUploading}
                                         >
                                             Subir foto
                                         </Button>
                                     </Upload>
-                                    <Button
-                                        size="sm"
-                                        type="button"
-                                        onClick={() => {
-                                            field.onChange('')
-                                        }}
-                                    >
-                                        Eliminar foto
-                                    </Button>
                                 </div>
                             </div>
                         )}

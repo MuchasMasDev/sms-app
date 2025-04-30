@@ -23,3 +23,11 @@ export async function apiDeleteUser<T>(id: string) {
         method: 'delete',
     })
 }
+
+export async function apiUpdateUserPhoto<T>({ data, id }: { data: FormData, id: string }) {
+    return ApiService.fetchFormDataWithAxios<T>({
+        url: `/users/${id}/profile-image`,
+        method: 'patch',
+        data,
+    })
+}
