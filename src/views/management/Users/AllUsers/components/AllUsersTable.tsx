@@ -53,7 +53,7 @@ const roleColor: Record<
         textClass: 'text-teal-600',
     },
     SPCA: {
-        label: 'Auxiliar de coordinadora',
+        label: 'Técnica de programa',
         bgClass: 'bg-cyan-100',
         textClass: 'text-cyan-600',
     },

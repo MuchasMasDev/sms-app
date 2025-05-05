@@ -52,7 +52,7 @@ export const roleOptions: {
         },
         {
             value: 'SPCA',
-            label: 'Auxiliar de coordinadora',
+            label: 'Técnica de programa',
         },
         {
             value: 'TUTOR',
