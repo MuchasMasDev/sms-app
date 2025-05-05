@@ -89,6 +89,7 @@ const ScholarForm = (props: ScholarFormProps) => {
                                     errors={errors}
                                 />
                                 <CurrentResidenceSection
+                                    setValue={setValue}
                                     control={control}
                                     errors={errors}
                                 />

@@ -2,40 +2,75 @@ import { Card, Select, Switcher } from '@/components/ui'
 import { FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 import { apiGetMunicipalities } from '@/services/CommonService'
-import { FormSectionBaseProps } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
-import { Controller } from 'react-hook-form'
+import { CreateScholarSchemaType, FormSectionBaseProps } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
+import { useEffect, useState } from 'react'
+import { Controller, UseFormSetValue } from 'react-hook-form'
 import useSWR from 'swr'
 
 const currentAddressOptions = [
-    { id: '1', name: 'Residencia actual' },
-    { id: '2', name: 'Residencia de origen' },
-    { id: '3', name: 'Residencia temporal' },
-    { id: '4', name: 'Residencia permanente' },
-    { id: '5', name: 'Residencia en el extranjero' },
-    { id: '6', name: 'Residencia en el campo' },
-    { id: '7', name: 'Residencia en la ciudad' },
-    { id: '8', name: 'Residencia en la playa' },
+    { value: '1', label: 'Casa Sol' },
+    { value: '2', label: 'Casa Luna' },
+    { value: '3', label: 'Otro' },
 ]
 
-type CurrentResidenceSectionProps = FormSectionBaseProps
+const residenceMap = new Map([
+    ['1', {
+        streetLine1: 'Colonia Toluca',
+        streetLine2: 'Calle Palmeral #120',
+        isUrban: true,
+        districtId: '24',
+    }],
+    ['2', {
+        streetLine1: 'Colonia Toluca',
+        streetLine2: 'Calle Palmeral #156',
+        isUrban: true,
+        districtId: '24',
+    }],
+    ['3', {
+        streetLine1: '',
+        streetLine2: '',
+        isUrban: false,
+        districtId: '',
+    }],
+])
 
-const CurrentResidenceSection = ({ control, errors }: CurrentResidenceSectionProps) => {
+type CurrentResidenceSectionProps = FormSectionBaseProps & {
+    setValue: UseFormSetValue<CreateScholarSchemaType>
+}
+
+const CurrentResidenceSection = ({ control, errors, setValue }: CurrentResidenceSectionProps) => {
 
     const { data, isLoading } = useSWR(['/api/residences/municipalities'], () => apiGetMunicipalities())
+    const [currentAddress, setCurrentAddress] = useState(currentAddressOptions[0].value)
+
+    // Update form values when currentAddress changes
+    useEffect(() => {
+        if (currentAddress) {
+            const residence = residenceMap.get(currentAddress)
+            if (residence) {
+                // Update all form fields with values from the map
+                setValue('addresses.1.streetLine1', residence.streetLine1)
+                setValue('addresses.1.streetLine2', residence.streetLine2)
+                setValue('addresses.1.isUrban', residence.isUrban)
+                setValue('addresses.1.districtId', +residence.districtId)
+            }
+        }
+    }, [currentAddress, setValue])
 
     return (
         <Card id='addressInformation'>
             <h4 className="mb-6">Residencia actual de la becaria</h4>
-            <Select
-                isClearable
-                placeholder="Seleccione una dirección"
-                options={currentAddressOptions.map(option => ({
-                    ...option,
-                    value: option.id,
-                    label: option.name
-                }))}
-            />
             <div className="grid md:grid-cols-2 gap-4">
+                <Select
+                    isClearable
+                    className="col-span-2"
+                    placeholder="Seleccione una residencia"
+                    options={currentAddressOptions}
+                    value={currentAddressOptions.find(opt => opt.value === currentAddress) || null}
+                    onChange={(option) => {
+                        setCurrentAddress(option?.value ?? '3') // Default to 'Otro' if nothing selected
+                    }}
+                />
                 <FormItem
                     label="Dirección"
                     invalid={Boolean(errors.addresses?.[1]?.streetLine1)}
@@ -85,6 +120,7 @@ const CurrentResidenceSection = ({ control, errors }: CurrentResidenceSectionPro
                         render={({ field }) => (
                             <Switcher
                                 {...field}
+                                checked={field.value}
                             />
                         )}
                     />
@@ -101,14 +137,14 @@ const CurrentResidenceSection = ({ control, errors }: CurrentResidenceSectionPro
                             const options = data?.map((municipality) => ({
                                 ...municipality,
                                 value: municipality.id,
-                                label: municipality.name
+                                label: `${municipality.name}`
                             }));
 
                             return (
                                 <Select
                                     isClearable
-                                    placeholder="Seleccione un municipio"
-                                    noOptionsMessage={() => 'No hay municipios'}
+                                    placeholder="Seleccione un distrito"
+                                    noOptionsMessage={() => 'No hay distritos'}
                                     isLoading={isLoading}
                                     options={options}
                                     {...field}
