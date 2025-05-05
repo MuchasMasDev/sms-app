@@ -27,6 +27,7 @@ export type SignUpCredential = {
     password: string,
     firstName: string,
     lastName: string,
+    dob: Date,
     roles: Authorities[],
 }
 

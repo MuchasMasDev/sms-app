@@ -1,5 +1,5 @@
 import { Authorities, User } from "@/@types/auth";
-import { Button, Form, FormItem, Input, Select } from "@/components/ui";
+import { Button, DatePicker, Form, FormItem, Input, Select } from "@/components/ui";
 import { roleOptions } from "@/constants/app.constant";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ const userFormSchema = z.object({
     firstName: z.string().min(1, { message: "El nombre es requerido" }),
     lastName: z.string().min(1, { message: "El apellido es requerido" }),
     email: z.string().email({ message: "El correo no es válido" }),
+    dob: z.date(),
     password: z.string().optional(),
     roles: z.array(z.any()).min(1, { message: "El rol es requerido" }),
 });
@@ -31,6 +32,7 @@ export default function UserForm(props: UserFormProps) {
         return {
             firstName: values.first_name ?? "",
             lastName: values.last_name ?? "",
+            dob: new Date(),
             email: values.email ?? "",
             roles: values.roles ?? [],
         };
@@ -118,6 +120,17 @@ export default function UserForm(props: UserFormProps) {
                     )}
                 />
             </FormItem>
+            <FormItem
+                    label="Fecha de nacimiento"
+                    invalid={Boolean(errors.dob)}
+                    errorMessage={errors.dob?.message}
+                >
+                    <Controller
+                        name="dob"
+                        control={control}
+                        render={({ field }) => <DatePicker {...field} />}
+                    />
+                </FormItem>
 
             {
                 !defaultValues &&

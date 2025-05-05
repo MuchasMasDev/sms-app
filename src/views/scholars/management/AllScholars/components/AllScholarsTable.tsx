@@ -1,14 +1,14 @@
-import { useMemo } from 'react'
-import Tag from '@/components/ui/Tag'
-import Tooltip from '@/components/ui/Tooltip'
-import type { ColumnDef, OnSortParam } from '@/components/shared/DataTable'
-import DataTable from '@/components/shared/DataTable'
-import cloneDeep from 'lodash/cloneDeep'
-import { useNavigate } from 'react-router-dom'
-import { TbEye, TbPencil } from 'react-icons/tb'
 import type { TableQueries } from '@/@types/common'
 import { Scholar, ScholarState } from '@/@types/scholars'
+import type { ColumnDef, OnSortParam } from '@/components/shared/DataTable'
+import DataTable from '@/components/shared/DataTable'
+import Tag from '@/components/ui/Tag'
+import Tooltip from '@/components/ui/Tooltip'
 import useAllScholars from '@/modules/scholars/hooks/useAllScholars'
+import cloneDeep from 'lodash/cloneDeep'
+import { useMemo } from 'react'
+import { TbEye } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 
 const stateColor: Record<
     ScholarState,
@@ -55,8 +55,6 @@ const RefCodeColumn = ({ row }: { row: Scholar }) => {
 const ActionColumn = ({ row }: { row: Scholar }) => {
     const navigate = useNavigate()
 
-    const onEdit = () => {}
-
     const onView = () => {
         navigate(`/scholars/details/${row.id}`)
     }
@@ -66,14 +64,6 @@ const ActionColumn = ({ row }: { row: Scholar }) => {
             <Tooltip wrapperClass="flex" title="View">
                 <span className={`cursor-pointer p-2`} onClick={onView}>
                     <TbEye />
-                </span>
-            </Tooltip>
-            <Tooltip wrapperClass="flex" title="Delete">
-                <span
-                    className="cursor-pointer p-2 hover:text-red-500"
-                    onClick={onEdit}
-                >
-                    <TbPencil />
                 </span>
             </Tooltip>
         </div>

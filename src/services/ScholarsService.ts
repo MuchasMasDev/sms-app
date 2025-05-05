@@ -37,7 +37,7 @@ export async function apiUpdateScholar(
     id: string,
 ) {
     return ApiService.fetchDataWithAxios({
-        url: endpointConfig.scholars.prefix + id,
+        url: endpointConfig.scholars.prefix + '/' + id,
         method: 'patch',
         data: {
             ...params,
