@@ -11,13 +11,13 @@ const HorizontalNav = ({
 }) => {
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
 
-    const userAuthority = useSessionUser((state) => state.user.role)
+    const userAuthority = useSessionUser((state) => state.user.roles)
 
     return (
         <HorizontalMenuContent
             navigationTree={navigationConfig}
             routeKey={currentRouteKey}
-            userAuthority={userAuthority || ''}
+            userAuthority={userAuthority || []}
             translationSetup={translationSetup}
         />
     )

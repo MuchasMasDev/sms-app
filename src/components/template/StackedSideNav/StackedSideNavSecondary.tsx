@@ -5,6 +5,7 @@ import VerticalMenuContent from '@/components/template/VerticalMenuContent'
 import { HiOutlineArrowSmLeft, HiOutlineArrowSmRight } from 'react-icons/hi'
 import type { NavigationTree } from '@/@types/navigation'
 import type { Direction } from '@/@types/theme'
+import { Authorities } from '@/@types/auth'
 
 type StackedSideNavSecondaryProps = {
     className?: string
@@ -14,7 +15,7 @@ type StackedSideNavSecondaryProps = {
     onCollapse: () => void
     direction?: Direction
     translationSetup?: boolean
-    userAuthority: string
+    userAuthority: Authorities[]
 }
 
 const StackedSideNavSecondary = (props: StackedSideNavSecondaryProps) => {

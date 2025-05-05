@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import type { NavigationTree } from '@/@types/navigation'
 import type { Direction, Mode } from '@/@types/theme'
 import type { CommonProps } from '@/@types/common'
+import { Authorities } from '@/@types/auth'
 
 export type SelectedMenuItem = {
     key?: string
@@ -30,7 +31,7 @@ interface StackedSideNavMiniProps extends CommonProps {
     routeKey: string
     activeKeys: string[]
     onSetActiveKey: (activeKey: string[]) => void
-    userAuthority: string
+    userAuthority: Authorities[]
     mode: Mode
     direction: Direction
     navigationTree: NavigationTree[]

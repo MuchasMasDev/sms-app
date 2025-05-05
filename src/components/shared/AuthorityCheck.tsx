@@ -3,8 +3,8 @@ import type { CommonProps } from '@/@types/common'
 import { Authorities } from '@/@types/auth'
 
 interface AuthorityCheckProps extends CommonProps {
-    userAuthority?: string[]
-    authority: Authorities[]
+    userAuthority?: Authorities[]
+    authority: string[]
 }
 
 const AuthorityCheck = (props: AuthorityCheckProps) => {

@@ -5,6 +5,7 @@ import AuthorityCheck from '@/components/shared/AuthorityCheck'
 import type { CommonProps, TraslationFn } from '@/@types/common'
 import type { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
+import { Authorities } from '@/@types/auth'
 
 interface DefaultItemProps extends CommonProps {
     nav: NavigationTree
@@ -12,7 +13,7 @@ interface DefaultItemProps extends CommonProps {
     t: TraslationFn
     indent?: boolean
     dotIndent?: boolean
-    userAuthority: string
+    userAuthority: Authorities[]
 }
 
 interface CollapsedItemProps extends DefaultItemProps {
