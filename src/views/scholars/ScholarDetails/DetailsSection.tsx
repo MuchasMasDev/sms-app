@@ -148,15 +148,15 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
                             />
                             <Detail
                                 label="Dirección"
-                                value={address.addresses.street_line_1}
+                                value={`${address.addresses.street_line_1} ${address.addresses.street_line_2 ? ', ' + address.addresses.street_line_2 : ''}`}
                             />
                             <Detail
-                                label="Dirección 2"
-                                value={address.addresses.street_line_2}
+                                label="Municipio"
+                                value={address.addresses.district}
                             />
                             <Detail
                                 label="Distrito"
-                                value={address.addresses.district}
+                                value={address.addresses.municipality}
                             />
                             <Detail
                                 label="Departamento"
