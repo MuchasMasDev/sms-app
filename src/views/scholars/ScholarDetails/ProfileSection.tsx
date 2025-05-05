@@ -80,9 +80,7 @@ const ProfileSection = ({ data }: ProfileSectionProps) => {
                     <Avatar
                         size={90}
                         shape="circle"
-                        src={
-                            'https://images.unsplash.com/photo-1592188657297-c6473609e988?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                        }
+                        src={data.user.profile_img_src ?? 'https://images.unsplash.com/photo-1592188657297-c6473609e988?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
                     />
                     <div className="flex flex-col items-center">
                         <h4 className="font-bold">{data.user.first_name}</h4>

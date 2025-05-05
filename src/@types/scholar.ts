@@ -1,3 +1,5 @@
+import { Authorities } from "./auth";
+
 export type BankAccountType = 'SAVINGS' | 'CURRENT';
 
 export interface Address {
@@ -57,7 +59,8 @@ export type UserScholarDetails = {
     first_name: string
     last_name: string
     email: string
-    role: 'SCHOLAR' | 'FINANCE' | 'SPC' | 'TUTOR' | 'ADMIN'
+    profile_img_src: string | null
+    roles: Authorities[]
   }
   scholar_addresses: ScholarAddress[] | undefined;
   scholar_phone_numbers: ScholarPhoneNumber[] | undefined;
