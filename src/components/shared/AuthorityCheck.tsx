@@ -4,7 +4,7 @@ import { Authorities } from '@/@types/auth'
 
 interface AuthorityCheckProps extends CommonProps {
     userAuthority?: Authorities[]
-    authority: string[]
+    authority: Authorities[]
 }
 
 const AuthorityCheck = (props: AuthorityCheckProps) => {

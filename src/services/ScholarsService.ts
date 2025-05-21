@@ -33,7 +33,7 @@ export async function apiCreateScholar(
 }
 
 export async function apiUpdateScholar(
-    params: CreateScholarSchemaType,
+    params: Partial<CreateScholarSchemaType>,
     id: string,
 ) {
     return ApiService.fetchDataWithAxios({
@@ -41,9 +41,9 @@ export async function apiUpdateScholar(
         method: 'patch',
         data: {
             ...params,
-            dob: params.dob.toISOString(),
-            ingressDate: params.ingressDate.toISOString(),
-            numberOfChildren: +params.numberOfChildren,
+            dob: params.dob?.toISOString(),
+            ingressDate: params.ingressDate?.toISOString(),
+            numberOfChildren: params.numberOfChildren ? +params.numberOfChildren : undefined,
             hasDisability: params.hasDisability,
             "state": "ACTIVE"
         },

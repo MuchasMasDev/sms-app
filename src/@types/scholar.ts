@@ -36,36 +36,50 @@ export interface BankAccount {
 
 
 export type UserScholarDetails = {
-  id: string
-  user_id: string
-  dob: string
-  gender: string
-  has_disability: boolean
-  disability_description: string | null
-  number_of_children: number
-  ingress_date: string
-  egress_date: string | null
-  egress_comments: string | null
-  emergency_contact_name: string
-  emergency_contact_phone: string
-  emergency_contact_relationship: string
-  dui: string | null
-  state: 'ACTIVE' | 'INACTIVE'
-  created_at: string
-  created_by: string
+  id: string;
+  user_id: string;
+  dob: string;
+  gender: string | null;
+  has_disability: boolean;
+  disability_description: string | null;
+  number_of_children: number;
+  ingress_date: string;
+  egress_date: string | null;
+  egress_comments: string | null;
+  emergency_contact_name: string;
+  emergency_contact_phone: string;
+  emergency_contact_relationship: string;
+  dui: string | null;
+  state: 'ACTIVE' | 'INACTIVE';
+  created_at: string;
+  created_by: string;
+
   user: {
-    id: string
-    ref_code: string
-    first_name: string
-    last_name: string
-    email: string
-    profile_img_src: string | null
-    roles: Authorities[]
-  }
-  scholar_addresses: ScholarAddress[] | undefined;
-  scholar_phone_numbers: ScholarPhoneNumber[] | undefined;
-  bank_accounts: BankAccount[] | undefined;
-}
+    id: string;
+    ref_code: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    profile_img_src: string | null;
+    roles: Authorities[];
+  };
+
+  current_scholar_address: ScholarAddress | null;
+  origin_scholar_address: ScholarAddress | null;
+
+  scholar_phone_numbers: ScholarPhoneNumber[];
+
+  bank_account: {
+    account_number: string;
+    account_holder: string;
+    account_type: 'SAVINGS' | 'CHECKING';
+    bank: {
+      name: string;
+      logo: string;
+    };
+  } | null;
+};
+
 
 export type ScholarLog = {
   id: number

@@ -25,11 +25,11 @@ type SignInFormSchema = {
 
 const validationSchema: ZodType<SignInFormSchema> = z.object({
     email: z
-        .string({ required_error: 'Please enter your email' })
-        .min(1, { message: 'Please enter your email' }),
+        .string({ required_error: 'Por favor ingresa tu correo' })
+        .min(1, { message: 'Por favor ingresa tu correo' }),
     password: z
-        .string({ required_error: 'Please enter your password' })
-        .min(1, { message: 'Please enter your password' }),
+        .string({ required_error: 'Por favor ingresa tu contraseña' })
+        .min(1, { message: 'Por favor ingresa tu contraseña' }),
 })
 
 const getRandomLoadingMessage = (): string => {
@@ -56,7 +56,7 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'carlosxmerca@example.com',
+            email: 'eduarmercado4@gmail.com',
             password: 'securePassword123',
         },
         resolver: zodResolver(validationSchema),

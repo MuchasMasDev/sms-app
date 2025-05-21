@@ -1,28 +1,50 @@
 import Button from '@/components/ui/Button'
+import XSLXService from '@/services/app/workbook.service'
+import { apiGenerateScholarReport } from '@/services/ReportService'
+import { useState } from 'react'
 import { TbCloudDownload, TbPlus } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { CSVLink } from 'react-csv'
-import useAllScholars from '@/modules/scholars/hooks/useAllScholars'
+
+type FormattedScholar = {
+    Apellidos: string,
+    Nombres: string,
+    'Rol(es)': string
+}
 
 const AllScholarsActionTools = () => {
     const navigate = useNavigate()
-
-    const { scholarList } = useAllScholars()
+    const [loading, setLoading] = useState<boolean>(false)
+    const xslx = new XSLXService();
 
     return (
         <div className="flex flex-col md:flex-row gap-3">
-            <CSVLink
+
+            <Button
+                icon={<TbCloudDownload className="text-xl" />}
                 className="w-full"
-                filename={`reporte_becarias_${new Date().toISOString().split('T')[0]}.xlsx`}
-                data={scholarList}
+                loading={loading}
+                onClick={async () => {
+                    setLoading(true)
+                    try {
+                        const res = await apiGenerateScholarReport<Array<FormattedScholar>, Record<string, unknown>>({})
+                        console.log('res', res);
+                        
+                        if (res) {
+                            const fileName = `reporte_becarias_${new Date().toISOString()}.xlsx`
+                            xslx.createSheet('Sheet1', res)
+                            xslx.saveToFile(fileName)
+                        } else {
+                            console.error('Error generating report', res);
+                        }
+                    } catch (error) {
+                        console.error('Error generating report', error);
+                    } finally {
+                        setLoading(false)
+                    }
+                }}
             >
-                <Button
-                    icon={<TbCloudDownload className="text-xl" />}
-                    className="w-full"
-                >
-                    Descargar datos
-                </Button>
-            </CSVLink>
+                Descargar datos
+            </Button>
             <Button
                 variant="solid"
                 icon={<TbPlus className="text-xl" />}

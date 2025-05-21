@@ -2,15 +2,18 @@ import { Drawer } from '@/components/ui'
 import Button from '@/components/ui/Button'
 import useAllUsers from '@/modules/users/hooks/useAllScholars'
 import { apiSignUp } from '@/services/AuthService'
+import { apiGenerateUsersReport } from '@/services/ReportService'
+import XSLXService from '@/services/app/workbook.service'
 import { useState } from 'react'
-import { CSVLink } from 'react-csv'
 import { TbCloudDownload, TbPlus } from 'react-icons/tb'
 import { toast } from 'sonner'
 import UserForm, { userFormSchemaType } from './UserForm'
 
 const AllUsersActionTools = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const { userList, mutate } = useAllUsers()
+    const { mutate } = useAllUsers()
+    const [loading, setLoading] = useState<boolean>(false)
+    const xslx = new XSLXService();
 
     const onDrawerClose = () => {
         setIsOpen(false)
@@ -37,18 +40,29 @@ const AllUsersActionTools = () => {
 
     return (
         <div className="flex flex-col md:flex-row gap-3">
-            <CSVLink
+            <Button
+                icon={<TbCloudDownload className="text-xl" />}
                 className="w-full"
-                filename={`reporte_usuarios_${new Date().toISOString().split('T')[0]}.xlsx`}
-                data={userList}
+                loading={loading}
+                onClick={async () => {
+                    setLoading(true)
+                    try {
+                        const res = await apiGenerateUsersReport<Array<{ Apellidos: string, Nombres: string, 'Rol(es)': string }>, Record<string, unknown>>({})
+                        if (res) {
+                            const fileName = `reporte_usuarios_${new Date().toISOString()}.xlsx`
+                            xslx.exportToExcel('Sheet1', res, fileName)
+                        } else {
+                            console.error('Error generating report', res);
+                        }
+                    } catch (error) {
+                        console.error('Error generating report', error);
+                    } finally {
+                        setLoading(false)
+                    }
+                }}
             >
-                <Button
-                    icon={<TbCloudDownload className="text-xl" />}
-                    className="w-full"
-                >
-                    Descargar datos
-                </Button>
-            </CSVLink>
+                Descargar datos
+            </Button>
             <Button
                 variant="solid"
                 icon={<TbPlus className="text-xl" />}
