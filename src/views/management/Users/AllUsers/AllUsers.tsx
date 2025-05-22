@@ -1,6 +1,7 @@
 import { AdaptiveCard, Container } from '@/components/shared'
 import AllUsersActionTools from '@/views/management/Users/AllUsers/components/AllUsersActionTools'
 import AllUsersTable from '@/views/management/Users/AllUsers/components/AllUsersTable'
+import AllUsersTableTools from './components/AllUsersTableTools'
 
 const AllUsers = () => {
     return (
@@ -11,7 +12,7 @@ const AllUsers = () => {
                         <h3>Registros de usuarias en el sistema</h3>
                         <AllUsersActionTools />
                     </div>
-                    {/*<AllUsersTableTools />*/}
+                    <AllUsersTableTools />
                     <AllUsersTable />
                 </div>
             </AdaptiveCard>

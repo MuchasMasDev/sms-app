@@ -1,8 +1,9 @@
-import { UserScholarDetails } from '@/@types/scholar'
+import { ScholarDetails } from '@/@types/scholar'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import Container from '@/components/shared/Container'
 import Loading from '@/components/shared/Loading'
 import Button from '@/components/ui/Button'
+import { apiGetMunicipalities, Municipality } from '@/services/CommonService'
 import { apiGetScholar } from '@/services/ScholarService'
 import { apiUpdateScholar } from '@/services/ScholarsService'
 import { CreateScholarSchemaType } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
@@ -13,19 +14,19 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import useSWR from 'swr'
 
-const transformScholarData = (data: UserScholarDetails | undefined): CreateScholarSchemaType | undefined => {
-    if (!data) return undefined;
+const transformScholarData = (data: ScholarDetails | undefined, disx: Municipality[] | undefined): CreateScholarSchemaType | undefined => {
+    if (!data || !disx) return undefined;
 
     const dobDate = data.dob ? new Date(data.dob) : new Date();
     const ingressDate = data.ingress_date ? new Date(data.ingress_date) : new Date();
 
     const transformedData: CreateScholarSchemaType = {
-        email: data.user.email,
+        email: data.user.email ?? '',
         password: 'Password123', // Empty password for editing
-        firstName: data.user.first_name,
-        lastName: data.user.last_name,
+        firstName: data.user.first_name ?? '',
+        lastName: data.user.last_name ?? '',
         dob: dobDate,
-        gender: data.gender,
+        gender: data.gender ?? '',
         hasDisability: data.has_disability,
         disabilityDescription: data.disability_description || undefined,
         numberOfChildren: data.number_of_children.toString(),
@@ -34,24 +35,23 @@ const transformScholarData = (data: UserScholarDetails | undefined): CreateSchol
         emergencyContactPhone: data.emergency_contact_phone,
         emergencyContactRelationship: data.emergency_contact_relationship,
         dui: data.dui || undefined,
-        // Map the nested arrays - these need to match the schema structure
-        addresses: data.scholar_addresses?.map(address => ({
-            streetLine1: address.addresses.street_line_1,
-            streetLine2: address.addresses.street_line_2 || '',
-            districtId: 0,
-            isUrban: address.addresses.is_urban
-        })) || [],
+        addresses: [{
+            isUrban: data.origin_scholar_address.is_urban,
+            streetLine1: data.origin_scholar_address.street_line_1,
+            streetLine2: data.origin_scholar_address.street_line_2 || undefined,
+            districtId: disx?.find(d => d.name === data.origin_scholar_address.district || '')?.id || 0,
+        }],
         phoneNumbers: data.scholar_phone_numbers?.map(phone => ({
+            id: phone.id,
             number: phone.number,
             isCurrent: phone.is_current
         })) || [],
-        bankAccounts: data.bank_accounts?.map(account => ({
-            accountNumber: account.account_number,
-            accountHolder: account.account_holder,
-            accountType: account.account_type as 'SAVINGS' | 'CURRENT',
-            bankId: 0,
-            isPrimary: account.is_primary
-        })) || []
+        bankAccounts: data.bank_account ? [{
+            accountNumber: data.bank_account.account_number,
+            accountType: data.bank_account.account_type,
+            accountHolder: data.bank_account.account_holder,
+            bankId: 1,
+        }] : []
     }
 
     return transformedData;
@@ -61,13 +61,14 @@ const ScholarEdit = () => {
     const navigate = useNavigate()
     const { id } = useParams()
 
+    const { data: disx } = useSWR(['/api/residences/municipalities'], () => apiGetMunicipalities())
     const { data, isLoading, mutate } = useSWR(id ? `/api/scholars/${id}` : null, () =>
-        apiGetScholar<UserScholarDetails, { id: string }>({
+        apiGetScholar<ScholarDetails, { id: string }>({
             id: id as string,
         }),
     )
 
-    const transformedData = transformScholarData(data)
+    const transformedData = transformScholarData(data, disx)
 
     const [discardConfirmationOpen, setDiscardConfirmationOpen] =
         useState(false)

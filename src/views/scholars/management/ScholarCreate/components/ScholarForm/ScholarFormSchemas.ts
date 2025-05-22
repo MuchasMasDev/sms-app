@@ -13,6 +13,7 @@ export const CreateAddressDtoSchema = z.object({
 export type CreateAddressSchemaType = z.infer<typeof CreateAddressDtoSchema>
 
 export const CreatePhoneNumberDtoSchema = z.object({
+    id: z.number().optional(),
     number: z.string().min(1, 'El número de teléfono es obligatorio'),
     isCurrent: z.boolean().default(true).optional(),
 })
@@ -45,7 +46,7 @@ export const CreateScholarSchema = z
         firstName: z.string().min(1, 'El nombre es obligatorio'),
         lastName: z.string().min(1, 'El apellido es obligatorio'),
         dob: z.date({ message: 'La fecha de nacimiento no debe ir vacía' }),
-        gender: z.string().min(1, 'Selecciona la discapacidad'),
+        gender: z.string().optional(),
         hasDisability: z.boolean(),
         disabilityDescription: z
             .string()

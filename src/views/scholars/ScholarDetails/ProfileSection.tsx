@@ -23,7 +23,7 @@ const CustomerInfoField = ({ title, value }: CustomerInfoFieldProps) => {
     return (
         <div className='grid grid-cols-2'>
             <span className="font-semibold">{title}</span>
-            <p className="heading-text font-bold text-end">{value}</p>
+            <p className=" col-span-2 heading-text font-bold break-words overflow-hidden">{value}</p>
         </div>
     )
 }
