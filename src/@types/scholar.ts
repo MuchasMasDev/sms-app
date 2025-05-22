@@ -1,24 +1,12 @@
-import { Authorities } from "./auth";
+import { User } from "./auth";
 
 export type BankAccountType = 'SAVINGS' | 'CURRENT';
-
-export interface Address {
-  street_line_1: string;
-  street_line_2: string | null;
-  is_urban: boolean;
-  district: string;
-  department: string;
-  municipality: string;
-}
-
-export interface ScholarAddress {
-  is_current: boolean;
-  addresses: Address;
-}
+export type ScholarState = 'ACTIVE' | 'INACTIVE' | 'GRADUATED'
 
 export interface ScholarPhoneNumber {
-  is_current: boolean;
-  number: string;
+  id: number,
+  is_current: boolean,
+  number: string
 }
 
 export interface Bank {
@@ -29,57 +17,20 @@ export interface Bank {
 export interface BankAccount {
   account_number: string;
   account_holder: string;
-  is_primary: boolean;
   account_type: BankAccountType;
   bank: Bank;
 }
 
-
-export type UserScholarDetails = {
-  id: string;
-  user_id: string;
-  dob: string;
-  gender: string | null;
-  has_disability: boolean;
-  disability_description: string | null;
-  number_of_children: number;
-  ingress_date: string;
-  egress_date: string | null;
-  egress_comments: string | null;
-  emergency_contact_name: string;
-  emergency_contact_phone: string;
-  emergency_contact_relationship: string;
-  dui: string | null;
-  state: 'ACTIVE' | 'INACTIVE';
-  created_at: string;
-  created_by: string;
-
-  user: {
-    id: string;
-    ref_code: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    profile_img_src: string | null;
-    roles: Authorities[];
-  };
-
-  current_scholar_address: ScholarAddress | null;
-  origin_scholar_address: ScholarAddress | null;
-
-  scholar_phone_numbers: ScholarPhoneNumber[];
-
-  bank_account: {
-    account_number: string;
-    account_holder: string;
-    account_type: 'SAVINGS' | 'CHECKING';
-    bank: {
-      name: string;
-      logo: string;
-    };
-  } | null;
-};
-
+export interface Address {
+  id: number,
+  street_line_1: string,
+  street_line_2: string | null,
+  is_urban: boolean,
+  is_current: boolean,
+  district: string,
+  municipality: string,
+  department: string
+}
 
 export type ScholarLog = {
   id: number
@@ -88,4 +39,29 @@ export type ScholarLog = {
   log: string
   created_at: string
   created_by: string
+}
+
+export type ScholarDetails = {
+  id: string,
+  user_id: string,
+  dob: string,
+  gender: string | null,
+  has_disability: boolean,
+  disability_description: string | null,
+  number_of_children: 0,
+  ingress_date: string,
+  egress_date: string | null,
+  egress_comments: string | null,
+  emergency_contact_name: string,
+  emergency_contact_phone: string,
+  emergency_contact_relationship: string,
+  dui: string | null,
+  state: ScholarState,
+  created_at: string,
+  created_by: string,
+  user: User,
+  origin_scholar_address: Address,
+  current_scholar_address: Address | null,
+  scholar_phone_numbers: ScholarPhoneNumber[],
+  bank_account: BankAccount
 }

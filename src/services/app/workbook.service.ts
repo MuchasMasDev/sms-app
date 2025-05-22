@@ -58,7 +58,7 @@ class XSLXService {
 
         // Freeze panes at the appropriate row based on header depth
         worksheet.views = [
-            { state: 'frozen', xSplit: 0, ySplit: headerDepth, activeCell: `A${headerDepth + 1}` }
+            { state: 'frozen', xSplit: 0, ySplit: 2, activeCell: `A${headerDepth + 1}` }
         ]
 
         // Define column structure with properly flattened keys

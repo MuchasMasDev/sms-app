@@ -1,4 +1,4 @@
-import { UserScholarDetails } from '@/@types/scholar'
+import { ScholarDetails } from '@/@types/scholar'
 import { useAuth } from '@/auth'
 import { AuthorityCheck } from '@/components/shared'
 import Avatar from '@/components/ui/Avatar/Avatar'
@@ -16,14 +16,14 @@ type CustomerInfoFieldProps = {
 }
 
 type ProfileSectionProps = {
-    data: UserScholarDetails
+    data: ScholarDetails
 }
 
 const CustomerInfoField = ({ title, value }: CustomerInfoFieldProps) => {
     return (
-        <div className='flex gap-4 flex-row items-center'>
+        <div className='grid grid-cols-2'>
             <span className="font-semibold">{title}</span>
-            <p className="heading-text font-bold">{value}</p>
+            <p className="heading-text font-bold text-end">{value}</p>
         </div>
     )
 }
@@ -94,9 +94,9 @@ const ProfileSection = ({ data }: ProfileSectionProps) => {
                     />
                     <CustomerInfoField
                         title="Código"
-                        value={data.user.ref_code}
+                        value={data.user.ref_code ?? ''}
                     />
-                    <CustomerInfoField title="Email" value={data.user.email} />
+                    <CustomerInfoField title="Email" value={data.user.email ?? ''} />
                     <CustomerInfoField
                         title="Celular de contacto"
                         value={data.emergency_contact_phone}

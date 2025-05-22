@@ -1,10 +1,10 @@
-import { UserScholarDetails } from '@/@types/scholar'
+import { ScholarDetails } from '@/@types/scholar'
 import Card from '@/components/ui/Card'
 import { genderOptions } from '@/constants/app.constant'
 import { PiCheckCircle, PiXCircle } from 'react-icons/pi'
 
 type DetailsSectionProps = {
-    data: UserScholarDetails
+    data: ScholarDetails
 }
 
 type DetailType = {
@@ -139,29 +139,28 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
                         {/* Render current address */}
                         {data.current_scholar_address && (
                             <div className="border-b-2 border-gray-200 pb-4">
-                                <BooleanDetail
-                                    label="Dirección actual"
-                                    value={true}
-                                />
+                                <p className='w-full text-center font-bold border-b-2 border-gray-200 mb-4 pb-2'>
+                                    Dirección actual de residencia
+                                </p>
                                 <BooleanDetail
                                     label="Es zona urbana"
-                                    value={data.current_scholar_address.addresses.is_urban}
+                                    value={data.current_scholar_address.is_urban}
                                 />
                                 <Detail
                                     label="Dirección"
-                                    value={`${data.current_scholar_address.addresses.street_line_1} ${data.current_scholar_address.addresses.street_line_2 ? ', ' + data.current_scholar_address.addresses.street_line_2 : ''}`}
+                                    value={`${data.current_scholar_address.street_line_1} ${data.current_scholar_address.street_line_2 ? ', ' + data.current_scholar_address.street_line_2 : ''}`}
                                 />
                                 <Detail
                                     label="Municipio"
-                                    value={data.current_scholar_address.addresses.district}
+                                    value={data.current_scholar_address.district}
                                 />
                                 <Detail
                                     label="Distrito"
-                                    value={data.current_scholar_address.addresses.municipality}
+                                    value={data.current_scholar_address.municipality}
                                 />
                                 <Detail
                                     label="Departamento"
-                                    value={data.current_scholar_address.addresses.department}
+                                    value={data.current_scholar_address.department}
                                 />
                             </div>
                         )}
@@ -169,29 +168,28 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
                         {/* Render origin address */}
                         {data.origin_scholar_address && (
                             <div>
-                                <BooleanDetail
-                                    label="Dirección de origen"
-                                    value={true}
-                                />
+                                <p className='w-full text-center font-bold border-b-2 border-gray-200 mb-4 pb-2'>
+                                    Dirección de origen
+                                </p>
                                 <BooleanDetail
                                     label="Es zona urbana"
-                                    value={data.origin_scholar_address.addresses.is_urban}
+                                    value={data.origin_scholar_address.is_urban}
                                 />
                                 <Detail
                                     label="Dirección"
-                                    value={`${data.origin_scholar_address.addresses.street_line_1} ${data.origin_scholar_address.addresses.street_line_2 ? ', ' + data.origin_scholar_address.addresses.street_line_2 : ''}`}
+                                    value={`${data.origin_scholar_address.street_line_1} ${data.origin_scholar_address.street_line_2 ? ', ' + data.origin_scholar_address.street_line_2 : ''}`}
                                 />
                                 <Detail
                                     label="Municipio"
-                                    value={data.origin_scholar_address.addresses.district}
+                                    value={data.origin_scholar_address.district}
                                 />
                                 <Detail
                                     label="Distrito"
-                                    value={data.origin_scholar_address.addresses.municipality}
+                                    value={data.origin_scholar_address.municipality}
                                 />
                                 <Detail
                                     label="Departamento"
-                                    value={data.origin_scholar_address.addresses.department}
+                                    value={data.origin_scholar_address.department}
                                 />
                             </div>
                         )}
