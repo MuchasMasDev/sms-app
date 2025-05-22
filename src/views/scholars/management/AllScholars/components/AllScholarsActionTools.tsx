@@ -14,7 +14,7 @@ type FormattedScholar = {
 const AllScholarsActionTools = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState<boolean>(false)
-    const xslx = new XSLXService();
+    const xlsxService = new XSLXService();
 
     return (
         <div className="flex flex-col md:flex-row gap-3">
@@ -31,8 +31,8 @@ const AllScholarsActionTools = () => {
                         
                         if (res) {
                             const fileName = `reporte_becarias_${new Date().toISOString()}.xlsx`
-                            xslx.createSheet('Sheet1', res)
-                            xslx.saveToFile(fileName)
+                            await xlsxService.createSheet('Sheet1', res)
+                            await xlsxService.saveToFile(fileName)
                         } else {
                             console.error('Error generating report', res);
                         }
