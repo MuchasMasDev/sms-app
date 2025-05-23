@@ -144,6 +144,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             value={{
                 authenticated,
                 user,
+                setUser,
                 signIn,
                 signUp,
                 signOut,

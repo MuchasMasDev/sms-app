@@ -3,7 +3,7 @@ import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
 import { Link } from 'react-router-dom'
-import { PiUserDuotone, PiSignOutDuotone } from 'react-icons/pi'
+import { PiSignOutDuotone, PiUserDuotone } from 'react-icons/pi'
 import { useAuth } from '@/auth'
 import type { JSX } from 'react'
 
@@ -13,10 +13,16 @@ type DropdownList = {
     icon: JSX.Element
 }
 
-const dropdownItemList: DropdownList[] = []
+const dropdownItemList: DropdownList[] = [
+    {
+        label: 'Perfil',
+        path: '/profile',
+        icon: <PiUserDuotone />,
+    },
+]
 
 const _UserDropdown = () => {
-    const { first_name, last_name, email, ref_code } = useSessionUser(
+    const { first_name, last_name, email, ref_code, profile_img_src } = useSessionUser(
         (state) => state.user,
     )
 
@@ -27,6 +33,7 @@ const _UserDropdown = () => {
     }
 
     const avatarProps = {
+        src: profile_img_src ?? '',
         icon: <PiUserDuotone />,
     }
 

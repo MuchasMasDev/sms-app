@@ -8,13 +8,14 @@ import { TbChevronDown } from 'react-icons/tb'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
 import type { TraslationFn } from '@/@types/common'
+import { Authorities } from '@/@types/auth'
 
 type HorizontalMenuContentProps = {
     routeKey: string
     navigationTree?: NavigationTree[]
     direction?: Direction
     translationSetup?: boolean
-    userAuthority: string
+    userAuthority: Authorities[]
 }
 
 const HorizontalMenuContent = (props: HorizontalMenuContentProps) => {

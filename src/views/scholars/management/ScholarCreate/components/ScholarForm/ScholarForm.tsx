@@ -14,13 +14,12 @@ import {
 import EmergencyContactSection from '@/views/scholars/management/ScholarCreate/components/ScholarForm/sections/EmergencyContactSection'
 import UserDetailSection from '@/views/scholars/management/ScholarCreate/components/ScholarForm/sections/UserDetailSection'
 import { zodResolver } from '@hookform/resolvers/zod'
-import isEmpty from 'lodash/isEmpty'
 import type { ReactNode } from 'react'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import FinancialSection from './sections/FinancialSection'
 import PhoneNumberSection from './sections/PhoneNumberSection'
-import ResidenceSection from './sections/ResidenceSection'
+import OriginResidenceSection from './sections/OriginResidenceSection'
+import CurrentResidenceSection from './sections/CurrentResidenceSection'
 
 type ScholarFormProps = {
     children: ReactNode
@@ -36,20 +35,13 @@ const ScholarForm = (props: ScholarFormProps) => {
 
     const { larger } = useResponsive()
 
-    useEffect(() => {
-        if (!isEmpty(defaultValues)) {
-            reset(defaultValues)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     const onSubmit = (values: CreateScholarSchemaType) => {
         onFormSubmit?.(values)
     }
 
     const {
         handleSubmit,
-        reset,
+        setValue,
         watch,
         formState: { errors },
         control,
@@ -60,7 +52,7 @@ const ScholarForm = (props: ScholarFormProps) => {
         resolver: zodResolver(CreateScholarSchema),
     })
 
-    const hasDisability = watch('hasDisability', '')
+    const hasDisability = watch('hasDisability', defaultValues?.hasDisability)
 
     return (
         <div className="flex">
@@ -86,12 +78,18 @@ const ScholarForm = (props: ScholarFormProps) => {
                                     control={control}
                                     errors={errors}
                                     disability={hasDisability}
+                                    onChangeDisability={() => { setValue('disabilityDescription', '') }}
                                 />
                                 <EmergencyContactSection
                                     control={control}
                                     errors={errors}
                                 />
-                                <ResidenceSection
+                                <OriginResidenceSection
+                                    control={control}
+                                    errors={errors}
+                                />
+                                <CurrentResidenceSection
+                                    setValue={setValue}
                                     control={control}
                                     errors={errors}
                                 />

@@ -1,13 +1,14 @@
 import { useMemo } from 'react'
 import isEmpty from 'lodash/isEmpty'
+import { Authorities } from '@/@types/auth'
 
 function useAuthority(
-    userAuthority: string = '',
+    userAuthority: Authorities[] = [],
     authority: string[] = [],
     emptyCheck = false,
 ) {
     const roleMatched = useMemo(() => {
-        return authority.some((role) => userAuthority === role)
+        return authority.some((role) => userAuthority.includes(role as Authorities))
     }, [authority, userAuthority])
 
     if (

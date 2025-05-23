@@ -1,6 +1,7 @@
 import { AdaptiveCard, Container } from '@/components/shared'
 import AllScholarsTable from '@/views/scholars/management/AllScholars/components/AllScholarsTable'
 import AllScholarsActionTools from '@/views/scholars/management/AllScholars/components/AllScholarsActionTools'
+import AllScholarsTableTools from '@/views/scholars/management/AllScholars/components/AllScholarsTableTools'
 
 const AllScholars = () => {
     return (
@@ -11,7 +12,7 @@ const AllScholars = () => {
                         <h3>Registros de becarias en el sistema</h3>
                         <AllScholarsActionTools />
                     </div>
-                    {/*<AllScholarsTableTools />*/}
+                    <AllScholarsTableTools />
                     <AllScholarsTable />
                 </div>
             </AdaptiveCard>

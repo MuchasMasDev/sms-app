@@ -37,7 +37,7 @@ export async function apiGetSearchResult<T>(params: { query: string }) {
     })
 }
 
-type Municipality = {
+export type Municipality = {
     id: number
     name: string
     department_id: number

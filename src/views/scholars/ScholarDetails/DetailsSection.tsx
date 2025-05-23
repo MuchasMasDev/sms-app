@@ -1,10 +1,10 @@
-import { UserScholarDetails } from '@/@types/scholar'
+import { ScholarDetails } from '@/@types/scholar'
 import Card from '@/components/ui/Card'
 import { genderOptions } from '@/constants/app.constant'
 import { PiCheckCircle, PiXCircle } from 'react-icons/pi'
 
 type DetailsSectionProps = {
-    data: UserScholarDetails
+    data: ScholarDetails
 }
 
 type DetailType = {
@@ -14,29 +14,31 @@ type DetailType = {
 
 const Detail = ({ label, value }: DetailType) => {
     return (
-        <span className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <span className={`font-semibold`}>{label}</span>
-            <span>{value || 'N/A'}</span>
+        <span className="grid grid-cols-3 gap-2">
+            <span className="font-semibold">{label}</span>
+            <span className="col-span-2 break-words overflow-hidden">{value || 'N/A'}</span>
         </span>
     )
 }
 
 const BooleanDetail = ({ label, value }: DetailType) => {
     return (
-        <span className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <span className={`font-semibold`}>{label}</span>
-            {value ? (
-                <PiCheckCircle size={24} className="text-green-500" />
-            ) : (
-                <PiXCircle size={24} className="text-red-500" />
-            )}
+        <span className="grid grid-cols-3 gap-2">
+            <span className="font-semibold">{label}</span>
+            <span className="col-span-2">
+                {value ? (
+                    <PiCheckCircle size={24} className="text-green-500" />
+                ) : (
+                    <PiXCircle size={24} className="text-red-500" />
+                )}
+            </span>
         </span>
     )
 }
 
 const BankLabels: Record<string, string> = {
     SAVINGS: 'Ahorro',
-    CURRENT: 'Corriente',
+    CHECKING: 'Corriente', // Changed from CURRENT to CHECKING to match the type
 }
 
 const DetailsSection = ({ data }: DetailsSectionProps) => {
@@ -133,95 +135,122 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
                 </Card>
                 <Card>
                     <div className="font-bold heading-text">Residencias</div>
-                    {data.scholar_addresses?.map((address, index) => (
-                        <div
-                            key={index}
-                            className={`mt-4 flex flex-col gap-1 ${data.scholar_addresses && index < data.scholar_addresses.length - 1 && ' border-b-2 border-gray-200 pb-4'}`}
-                        >
-                            <BooleanDetail
-                                label="Dirección actual"
-                                value={address.is_current}
-                            />
-                            <BooleanDetail
-                                label="Es zona urbana"
-                                value={address.addresses.is_urban}
-                            />
-                            <Detail
-                                label="Dirección"
-                                value={address.addresses.street_line_1}
-                            />
-                            <Detail
-                                label="Dirección 2"
-                                value={address.addresses.street_line_2}
-                            />
-                            <Detail
-                                label="Número de apartamento"
-                                value={address.addresses.apartment_number}
-                            />
-                            <Detail
-                                label="Código postal"
-                                value={address.addresses.postal_code}
-                            />
-                            <Detail
-                                label="Municipio"
-                                value={address.addresses.municipality}
-                            />
-                            <Detail
-                                label="Departamento"
-                                value={address.addresses.department}
-                            />
-                        </div>
-                    ))}
+                    <div className="mt-4 flex flex-col gap-1">
+                        {/* Render current address */}
+                        {data.current_scholar_address && (
+                            <div className="border-b-2 border-gray-200 pb-4">
+                                <p className='w-full text-center font-bold border-b-2 border-gray-200 mb-4 pb-2'>
+                                    Dirección actual de residencia
+                                </p>
+                                <BooleanDetail
+                                    label="Es zona urbana"
+                                    value={data.current_scholar_address.is_urban}
+                                />
+                                <Detail
+                                    label="Dirección"
+                                    value={`${data.current_scholar_address.street_line_1} ${data.current_scholar_address.street_line_2 ? ', ' + data.current_scholar_address.street_line_2 : ''}`}
+                                />
+                                <Detail
+                                    label="Municipio"
+                                    value={data.current_scholar_address.district}
+                                />
+                                <Detail
+                                    label="Distrito"
+                                    value={data.current_scholar_address.municipality}
+                                />
+                                <Detail
+                                    label="Departamento"
+                                    value={data.current_scholar_address.department}
+                                />
+                            </div>
+                        )}
+
+                        {/* Render origin address */}
+                        {data.origin_scholar_address && (
+                            <div>
+                                <p className='w-full text-center font-bold border-b-2 border-gray-200 mb-4 pb-2'>
+                                    Dirección de origen
+                                </p>
+                                <BooleanDetail
+                                    label="Es zona urbana"
+                                    value={data.origin_scholar_address.is_urban}
+                                />
+                                <Detail
+                                    label="Dirección"
+                                    value={`${data.origin_scholar_address.street_line_1} ${data.origin_scholar_address.street_line_2 ? ', ' + data.origin_scholar_address.street_line_2 : ''}`}
+                                />
+                                <Detail
+                                    label="Municipio"
+                                    value={data.origin_scholar_address.district}
+                                />
+                                <Detail
+                                    label="Distrito"
+                                    value={data.origin_scholar_address.municipality}
+                                />
+                                <Detail
+                                    label="Departamento"
+                                    value={data.origin_scholar_address.department}
+                                />
+                            </div>
+                        )}
+
+                        {!data.current_scholar_address && !data.origin_scholar_address && (
+                            <Detail label="Sin direcciones registradas" value="" />
+                        )}
+                    </div>
                 </Card>
 
                 <Card>
                     <div className="font-bold heading-text">Teléfonos</div>
-                    {data.scholar_phone_numbers?.map((phone, index) => (
-                        <>
+                    {data.scholar_phone_numbers && data.scholar_phone_numbers.length > 0 ? (
+                        data.scholar_phone_numbers.map((phone, index) => (
                             <div
                                 key={index}
-                                className={`mt-4 flex flex-col gap-1 ${data.scholar_phone_numbers && index < data.scholar_phone_numbers.length - 1 && ' border-b-2 border-gray-200 pb-4'}`}
+                                className={`mt-4 flex flex-col gap-1 ${index < data.scholar_phone_numbers.length - 1 ? 'border-b-2 border-gray-200 pb-4' : ''}`}
                             >
-                                <BooleanDetail
-                                    label="Teléfono móvil"
-                                    value={phone.is_mobile}
-                                />
-                                <BooleanDetail
-                                    label="Teléfono actual"
-                                    value={phone.is_current}
-                                />
+                                {phone.is_current && (
+                                    <BooleanDetail
+                                        label="Teléfono principal"
+                                        value={phone.is_current}
+                                    />
+                                )}
                                 <Detail label="Número" value={phone.number} />
                             </div>
-                        </>
-                    ))}
+                        ))
+                    ) : (
+                        <div className="mt-4">
+                            <Detail label="Sin teléfonos registrados" value="" />
+                        </div>
+                    )}
                 </Card>
                 <Card>
                     <div className="font-bold heading-text">
-                        Cuentas bancaria
+                        Cuenta bancaria
                     </div>
-                    {data.bank_accounts?.map((account, index) => (
-                        <div
-                            key={index}
-                            className={`mt-4 flex flex-col gap-1 ${data.bank_accounts && index < data.bank_accounts.length - 1 && ' border-b-2 border-gray-200 pb-4'}`}
-                        >
-                            <BooleanDetail
-                                label="Cuenta principal"
-                                value={account.is_primary}
-                            />
-                            <Detail
-                                label="Número de cuenta"
-                                value={account.account_number}
-                            />
-                            <Detail
-                                label="Tipo de cuenta"
-                                value={
-                                    BankLabels[account.account_type] ||
-                                    account.account_type
-                                }
-                            />
-                            <Detail label="Banco" value={account.bank.name} />
-                        </div>
-                    ))}
+                    <div className="mt-4 flex flex-col gap-1">
+                        {data.bank_account ? (
+                            <>
+                                <Detail
+                                    label="Número de cuenta"
+                                    value={data.bank_account.account_number}
+                                />
+                                <Detail
+                                    label="Titular de la cuenta"
+                                    value={data.bank_account.account_holder}
+                                />
+                                <Detail
+                                    label="Tipo de cuenta"
+                                    value={
+                                        BankLabels[data.bank_account.account_type] ||
+                                        data.bank_account.account_type
+                                    }
+                                />
+                                <Detail label="Banco" value={data.bank_account.bank.name} />
+                            </>
+                        ) : (
+                            <Detail label="Sin cuenta bancaria registrada" value="" />
+                        )}
+                    </div>
                 </Card>
             </div>
         </>

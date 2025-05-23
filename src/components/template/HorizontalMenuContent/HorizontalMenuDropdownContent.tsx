@@ -13,6 +13,7 @@ import { TbCircle } from 'react-icons/tb'
 import type { CommonProps, TraslationFn } from '@/@types/common'
 import type { NavigationTree, HorizontalMenuMeta } from '@/@types/navigation'
 import type { ReactNode, HTMLProps } from 'react'
+import { Authorities } from '@/@types/auth'
 
 interface LayoutProps extends CommonProps {
     navigationTree: NavigationTree[]
@@ -20,7 +21,7 @@ interface LayoutProps extends CommonProps {
     onDropdownClose: () => void
     routeKey: string
     routeParentKey?: string
-    userAuthority: string
+    userAuthority: Authorities[]
 }
 
 interface HorizontalMenuDropdownContentProps extends LayoutProps {

@@ -13,22 +13,54 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
+        key: 'profile',
+        path: `/profile`,
+        component: lazy(() => import('../../views/auth/Settings')),
+        authority: [],
+    },
+    // ADMIN MENU
+    {
+        key: 'adminMenu.users.all',
+        path: '/users',
+        component: lazy(() => import('@/views/management/Users/AllUsers')),
+        authority: ['ADMIN'],
+    },
+    {
         key: 'adminMenu.scholarsMenu.all',
         path: '/scholars',
-        component: lazy(() => import('@/views/scholars/management/AllScholars')),
-        authority: ['ADMIN']
+        component: lazy(
+            () => import('@/views/scholars/management/AllScholars'),
+        ),
+        authority: ['ADMIN'],
     },
     {
         key: 'adminMenu.scholarsMenu.create',
         path: '/scholars/new',
-        component: lazy(() => import('@/views/scholars/management/ScholarCreate')),
-        authority: ['ADMIN']
+        component: lazy(
+            () => import('@/views/scholars/management/ScholarCreate'),
+        ),
+        authority: ['ADMIN'],
+    },
+    {
+        key: 'adminMenu.scholarsMenu.edit',
+        path: '/scholars/edit/:id',
+        component: lazy(
+            () => import('@/views/scholars/management/ScholarEdit'),
+        ),
+        authority: ['ADMIN'],
     },
     {
         key: 'scholars.scholarDetails',
         path: `/scholars/details/:id`,
         component: lazy(() => import('../../views/scholars/ScholarDetails')),
-        authority: ['ADMIN']
+        authority: ['ADMIN'],
+    },
+    // APP CATALOGS
+    {
+        key: 'catalogs.banks',
+        path: `/catalogs/banks`,
+        component: lazy(() => import('../../views/management/Banks')),
+        authority: ['ADMIN'],
     },
     /** Example purpose only, please remove */
     // {

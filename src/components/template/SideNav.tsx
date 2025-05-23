@@ -50,7 +50,7 @@ const SideNav = ({
 
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
 
-    const userAuthority = useSessionUser((state) => state.user.role)
+    const userAuthority = useSessionUser((state) => state.user.roles)
 
     return (
         <div
@@ -87,7 +87,7 @@ const SideNav = ({
                         routeKey={currentRouteKey}
                         direction={direction}
                         translationSetup={translationSetup}
-                        userAuthority={userAuthority || ''}
+                        userAuthority={userAuthority || []}
                     />
                 </ScrollBar>
             </div>

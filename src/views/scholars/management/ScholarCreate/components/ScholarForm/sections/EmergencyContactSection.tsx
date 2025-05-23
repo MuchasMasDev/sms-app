@@ -30,28 +30,12 @@ const emergencyContactRelationshipOptions = [
         value: 'Abuelo(a)',
     },
     {
-        label: 'Tío(a)',
-        value: 'Tío(a)',
-    },
-    {
-        label: 'Primo(a)',
-        value: 'Primo(a)',
-    },
-    {
         label: 'Esposo(a) / Pareja',
         value: 'Esposo(a) / Pareja',
     },
     {
-        label: 'Sobrino(a)',
-        value: 'Sobrino(a)',
-    },
-    {
-        label: 'Tutor legal',
-        value: 'Tutor legal',
-    },
-    {
-        label: 'Amigo(a)',
-        value: 'Amigo(a)',
+        label: 'Tutor/a legal',
+        value: 'Tutor/a legal',
     },
     {
         label: 'Otro',
@@ -70,11 +54,11 @@ const EmergencyContactSection = ({
     control,
     errors,
 }: CustomerDetailSectionProps) => {
-    const [phoneValue, setPhoneValue] = useState('')
+    const [phoneValue, setPhoneValue] = useState(control._defaultValues.emergencyContactPhone ?? '')
 
     return (
         <Card id="emergencyContact">
-            <h4 className="mb-6">Contacto de Emergencia</h4>
+            <h4 className="mb-6">Contacto de emergencia</h4>
 
             <div className="grid md:grid-cols-3 gap-4">
                 <FormItem

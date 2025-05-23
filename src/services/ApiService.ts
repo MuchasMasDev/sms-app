@@ -15,6 +15,29 @@ const ApiService = {
                 })
         })
     },
+    
+    fetchFormDataWithAxios<Response = unknown>(
+        param: AxiosRequestConfig<FormData>,
+    ) {
+        return new Promise<Response>((resolve, reject) => {
+            // Ensure headers are set for FormData
+            const configWithHeaders = {
+                ...param,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    ...param.headers,
+                },
+            };
+            
+            AxiosBase(configWithHeaders)
+                .then((response: AxiosResponse<Response>) => {
+                    resolve(response.data)
+                })
+                .catch((errors: AxiosError) => {
+                    reject(errors)
+                })
+        })
+    },
 }
 
 export default ApiService

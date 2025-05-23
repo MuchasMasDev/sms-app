@@ -7,16 +7,19 @@ import useSWR from 'swr'
 import { useParams } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import { apiGetScholar } from '@/services/ScholarService'
-import { UserScholarDetails } from '@/@types/scholar'
 import DetailsSection from '@/views/scholars/ScholarDetails/DetailsSection'
+import { AuthorityCheck } from '@/components/shared'
+import { useAuth } from '@/auth'
+import { ScholarDetails as ScholarDType } from '@/@types/scholar'
 
 const { TabNav, TabList, TabContent } = Tabs
 
 const ScholarDetails = () => {
     const { id } = useParams()
+    const { user } = useAuth()
 
     const { data, isLoading } = useSWR(id ? `/api/scholars/${id}` : null, () =>
-        apiGetScholar<UserScholarDetails, { id: string }>({
+        apiGetScholar<ScholarDType, { id: string }>({
             id: id as string,
         }),
     )
@@ -32,7 +35,12 @@ const ScholarDetails = () => {
                         <Tabs defaultValue="detalles">
                             <TabList>
                                 <TabNav value="detalles">Detalles</TabNav>
-                                <TabNav value="activity">Notas</TabNav>
+                                <AuthorityCheck
+                                    authority={['ADMIN']}
+                                    userAuthority={user.roles}
+                                >
+                                    <TabNav value="activity">Notas</TabNav>
+                                </AuthorityCheck>
                             </TabList>
                             <div className="p-4">
                                 <TabContent value="detalles">
@@ -40,7 +48,7 @@ const ScholarDetails = () => {
                                 </TabContent>
                                 <TabContent value="activity">
                                     <ActivitySection
-                                        scholarName={data.user.first_name}
+                                        scholarName={data.user.first_name ?? ''}
                                         id={id as string}
                                     />
                                 </TabContent>

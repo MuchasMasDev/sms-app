@@ -23,9 +23,12 @@ export type SignInResponse = {
 export type SignUpResponse = SignInResponse
 
 export type SignUpCredential = {
-    userName: string
-    email: string
-    password: string
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    dob: Date,
+    roles: Authorities[],
 }
 
 export type ForgotPassword = {
@@ -36,6 +39,13 @@ export type ResetPassword = {
     password: string
 }
 
+export type UpdateUser = {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+}
+
 export type AuthRequestStatus = 'success' | 'failed' | ''
 
 export type AuthResult = Promise<{
@@ -43,13 +53,24 @@ export type AuthResult = Promise<{
     message: string
 }>
 
+export type Authorities =
+    | 'SCHOLAR'     // This is the role for the students
+    | 'FINANCE'     // This is the role for the finanial department
+    | 'ACADEMIC'    // This is the role for the academic department
+    | 'SPC'         // This is the role fot the Scholarship Program Coordinator
+    | 'SPCA'        // This is the role fot the Scholarship Program Coordinator Assistant
+    | 'PSY'         // This is the role for the psycologist
+    | 'TUTOR'       // This is the role for the tutors
+    | 'ADMIN'       // This is the role for the system administrators, they have access to everything
+
 export type User = {
     id?: string | null
     ref_code?: string | null
     first_name?: string | null
     last_name?: string | null
     email?: string | null
-    role?: string
+    profile_img_src?: string | null
+    roles?: Authorities[]
 }
 
 export type Token = {

@@ -7,6 +7,7 @@ import Dropdown from '@/components/ui/Dropdown'
 import type { CommonProps } from '@/@types/common'
 import type { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
+import { Authorities } from '@/@types/auth'
 
 const { MenuItem } = Menu
 
@@ -19,7 +20,7 @@ interface CollapsedItemProps extends CommonProps {
         fallback?: string | Record<string, string | number>,
     ) => string
     renderAsIcon?: boolean
-    userAuthority: string
+    userAuthority: Authorities[]
     currentKey?: string
     parentKeys?: string[]
 }
@@ -33,7 +34,7 @@ interface DefaultItemProps {
         fallback?: string | Record<string, string | number>,
     ) => string
     indent?: boolean
-    userAuthority: string
+    userAuthority: Authorities[]
     showIcon?: boolean
     showTitle?: boolean
 }

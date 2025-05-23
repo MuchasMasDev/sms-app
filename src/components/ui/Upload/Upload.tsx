@@ -65,7 +65,7 @@ const Upload = (props: UploadProps) => {
     const triggerMessage = (msg: string | ReactNode = '') => {
         toast.push(
             <Notification type="danger" duration={2000}>
-                {msg || 'Upload Failed!'}
+                {msg || 'Error al subir archivo!'}
             </Notification>,
             {
                 placement: 'top-center',
@@ -141,13 +141,13 @@ const Upload = (props: UploadProps) => {
         if (!draggable && !children) {
             return (
                 <Button disabled={disabled} onClick={(e) => e.preventDefault()}>
-                    Upload
+                    Subir
                 </Button>
             )
         }
 
         if (draggable && !children) {
-            return <span>Choose a file or drag and drop here</span>
+            return <span>Elija un archivo o arrastre y suelte aquí</span>
         }
 
         return children

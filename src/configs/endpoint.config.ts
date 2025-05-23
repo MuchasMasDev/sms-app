@@ -7,6 +7,8 @@ const endpointConfig = {
             signUp: '/sign-up',
             forgotPassword: '/forgot-password',
             resetPassword: '/reset-password',
+            changePassword: '/update-password',
+            updateUser: '/users/',
         },
     },
     scholars: {

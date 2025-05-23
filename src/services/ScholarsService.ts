@@ -26,7 +26,25 @@ export async function apiCreateScholar(
             dob: params.dob.toISOString(),
             ingressDate: params.ingressDate.toISOString(),
             numberOfChildren: +params.numberOfChildren,
-            hasDisability: params.hasDisability === 'false' ? false : true,
+            hasDisability: params.hasDisability,
+            "state": "ACTIVE"
+        },
+    })
+}
+
+export async function apiUpdateScholar(
+    params: Partial<CreateScholarSchemaType>,
+    id: string,
+) {
+    return ApiService.fetchDataWithAxios({
+        url: endpointConfig.scholars.prefix + '/' + id,
+        method: 'patch',
+        data: {
+            ...params,
+            dob: params.dob?.toISOString(),
+            ingressDate: params.ingressDate?.toISOString(),
+            numberOfChildren: params.numberOfChildren ? +params.numberOfChildren : undefined,
+            hasDisability: params.hasDisability,
             "state": "ACTIVE"
         },
     })

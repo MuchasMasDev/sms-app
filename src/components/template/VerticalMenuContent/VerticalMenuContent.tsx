@@ -14,6 +14,7 @@ import useTranslation from '@/utils/hooks/useTranslation'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
 import type { TraslationFn } from '@/@types/common'
+import { Authorities } from '@/@types/auth'
 
 export interface VerticalMenuContentProps {
     collapsed?: boolean
@@ -22,7 +23,7 @@ export interface VerticalMenuContentProps {
     onMenuItemClick?: () => void
     direction?: Direction
     translationSetup?: boolean
-    userAuthority: string
+    userAuthority: Authorities[]
 }
 
 const { MenuGroup } = Menu
