@@ -1,3 +1,4 @@
+import { Authorities } from './auth'
 import { LayoutType } from './theme'
 import type { LazyExoticComponent, ReactNode, JSX } from 'react'
 
@@ -20,7 +21,7 @@ export type Route = {
     key: string
     path: string
     component: LazyExoticComponent<<T extends Meta>(props: T) => JSX.Element>
-    authority: string[]
+    authority: Authorities[]
     meta?: Meta
 }
 
