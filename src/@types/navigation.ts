@@ -1,3 +1,5 @@
+import { Authorities } from "./auth"
+
 export type HorizontalMenuMeta =
     | {
           layout: 'default'
@@ -20,7 +22,7 @@ export interface NavigationTree {
     translateKey: string
     icon: string
     type: 'title' | 'collapse' | 'item'
-    authority: string[]
+    authority: Authorities[]
     subMenu: NavigationTree[]
     description?: string
     meta?: {
