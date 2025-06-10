@@ -24,7 +24,7 @@ const navigationConfig: NavigationTree[] = [
         translateKey: 'nav.scholarsMenu',
         icon: 'scholarsMenu',
         type: NAV_ITEM_TYPE_COLLAPSE,
-        authority: ['ADMIN', 'SPC', 'SPCA'],
+        authority: ['ADMIN', 'SPC', 'SPCA', 'FINANCE', 'PSY'],
         subMenu: [
             {
                 key: 'scholarsMenu.all',

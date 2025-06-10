@@ -31,7 +31,7 @@ export const protectedRoutes: Routes = [
         component: lazy(
             () => import('@/views/scholars/management/AllScholars'),
         ),
-        authority: ['ADMIN', 'SPC', 'SPCA'],
+        authority: ['ADMIN', 'SPC', 'SPCA', 'FINANCE', 'PSY'],
     },
     {
         key: 'adminMenu.scholarsMenu.create',
@@ -53,7 +53,7 @@ export const protectedRoutes: Routes = [
         key: 'scholars.scholarDetails',
         path: `/scholars/details/:id`,
         component: lazy(() => import('../../views/scholars/ScholarDetails')),
-        authority: ['ADMIN', 'SPC', 'SPCA'],
+        authority: ['ADMIN', 'SPC', 'SPCA', 'FINANCE', 'PSY'],
     },
     // APP CATALOGS
     {

@@ -27,6 +27,7 @@ export async function apiCreateScholar(
             ingressDate: params.ingressDate.toISOString(),
             numberOfChildren: +params.numberOfChildren,
             hasDisability: params.hasDisability,
+            bankAccount: params.bankAccounts[0],
             "state": "ACTIVE"
         },
     })

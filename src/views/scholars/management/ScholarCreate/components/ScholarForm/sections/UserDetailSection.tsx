@@ -122,6 +122,7 @@ const UserDetailSection = ({
                                 {!field.value ? (
                                     <div className={`flex gap-1`}>
                                         <Input
+                                            disabled
                                             type="text"
                                             autoComplete="off"
                                             placeholder="Súper contraseña"

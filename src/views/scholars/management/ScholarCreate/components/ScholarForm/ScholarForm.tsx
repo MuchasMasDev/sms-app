@@ -20,6 +20,7 @@ import FinancialSection from './sections/FinancialSection'
 import PhoneNumberSection from './sections/PhoneNumberSection'
 import OriginResidenceSection from './sections/OriginResidenceSection'
 import CurrentResidenceSection from './sections/CurrentResidenceSection'
+import { Alert } from '@/components/ui'
 
 type ScholarFormProps = {
     children: ReactNode
@@ -47,7 +48,10 @@ const ScholarForm = (props: ScholarFormProps) => {
         control,
     } = useForm<CreateScholarSchemaType>({
         defaultValues: {
-            ...(defaultValues ? defaultValues : {}),
+            ...(defaultValues ? defaultValues : {
+                hasDisability: false,
+                disabilityDescription: '',
+            }),
         },
         resolver: zodResolver(CreateScholarSchema),
     })
@@ -102,6 +106,14 @@ const ScholarForm = (props: ScholarFormProps) => {
                                     errors={errors}
                                 />
                             </div>
+                            {
+                                errors && Object.keys(errors).length > 0 &&
+                                Object.keys(errors).map((key) => (
+                                    <Alert key={key} showIcon type="danger" title="Error en el formulario" className="mt-4">
+                                        {(errors as Record<string, { message?: string }>)[key]?.message ?? 'Error en el formulario'}
+                                    </Alert>
+                                ))
+                            }
                         </div>
                     </div>
                 </Container>

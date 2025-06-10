@@ -105,6 +105,10 @@ const ProfileSection = ({ data }: ProfileSectionProps) => {
                         title="Fecha de nacimiento"
                         value={new Date(data.dob).toLocaleDateString()}
                     />
+                    <CustomerInfoField
+                        title="Fecha de ingreso al programa"
+                        value={new Date(data.ingress_date).toLocaleDateString()}
+                    />
                 </div>
                 <AuthorityCheck
                     authority={['ADMIN']}
