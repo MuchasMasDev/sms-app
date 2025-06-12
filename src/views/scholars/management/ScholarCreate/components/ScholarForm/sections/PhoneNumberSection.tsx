@@ -1,9 +1,11 @@
 import { Button, Card } from '@/components/ui'
 import { FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
+import { apiDeletePhoneNumber } from '@/services/ScholarPhones.service'
 import { FormSectionBaseProps } from '@/views/scholars/management/ScholarCreate/components/ScholarForm'
 import { useState } from 'react'
 import { Controller, useFieldArray } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 
 type PhoneNumberSectionProps = FormSectionBaseProps
 
@@ -16,10 +18,12 @@ const formatPhoneNumber = (value: string) => {
 
 const PhoneNumberSection = ({ control, errors }: PhoneNumberSectionProps) => {
     const [newPhoneValue, setNewPhoneValue] = useState('')
+    const { id: scholarID } = useParams()
 
     const { fields, append, remove, update } = useFieldArray({
         control,
         name: 'phoneNumbers',
+        keyName: '_id',
     })
 
     const handleAddPhone = () => {
@@ -27,20 +31,29 @@ const PhoneNumberSection = ({ control, errors }: PhoneNumberSectionProps) => {
             // Sí es el primer teléfono, marcarlo como actual
             append({
                 number: newPhoneValue,
-                isCurrent: fields.length === 0
+                isCurrent: true,
             })
             setNewPhoneValue('')
         }
     }
 
-    const handleSetCurrent = (index: number) => {
-        // Actualizar todos los teléfonos para que solo el seleccionado sea actual
-        fields.forEach((field, i) => {
-            update(i, {
-                ...field,
-                isCurrent: i === index
-            })
+const handleSetCurrent = (index: number) => {
+    // Actualizar todos los teléfonos para que solo el seleccionado sea actual
+    fields.forEach((field, i) => {
+        update(i, {
+            ...field,
+            isCurrent: i === index // Only set true for the selected index
         })
+    })
+}
+
+    const handleDeletePhone = async (index: number) => {
+        if (fields[index].id === undefined) {
+            remove(index)
+            return
+        }
+        await apiDeletePhoneNumber(fields[index].id, scholarID as string)
+        remove(index)
     }
 
     return (
@@ -90,19 +103,18 @@ const PhoneNumberSection = ({ control, errors }: PhoneNumberSectionProps) => {
                     <h6 className="m-4">Números telefónicos registrados</h6>
                     <div className="grid gap-3">
                         {fields.map((field, index) => (
-                            <div key={field.id}>
+                            <div key={field._id}>
                                 <Controller
                                     name={`phoneNumbers.${index}.isCurrent`}
                                     control={control}
                                     render={({ field: fieldProps }) => (
                                         <Card
                                             className={`p-3 cursor-pointer transition-all duration-200 ${fieldProps.value
-                                                    ? "border-2 border-blue-500 bg-blue-50"
-                                                    : "bg-gray-50 hover:bg-gray-100"
+                                                ? "border-2 border-blue-500 bg-blue-50"
+                                                : "bg-gray-50 hover:bg-gray-100"
                                                 }`}
                                             onClick={() => {
                                                 handleSetCurrent(index)
-                                                fieldProps.onChange(true)
                                             }}
                                         >
                                             <div className="flex justify-between items-center">
@@ -121,7 +133,7 @@ const PhoneNumberSection = ({ control, errors }: PhoneNumberSectionProps) => {
                                                     variant='solid'
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        remove(index)
+                                                        handleDeletePhone(index)
                                                     }}
                                                 >
                                                     Eliminar
