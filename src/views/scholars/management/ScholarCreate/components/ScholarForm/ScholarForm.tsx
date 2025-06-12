@@ -111,6 +111,7 @@ const ScholarForm = (props: ScholarFormProps) => {
                                 Object.keys(errors).map((key) => (
                                     <Alert key={key} showIcon type="danger" title="Error en el formulario" className="mt-4">
                                         {(errors as Record<string, { message?: string }>)[key]?.message ?? 'Error en el formulario'}
+                                        {JSON.stringify(errors)}
                                     </Alert>
                                 ))
                             }
