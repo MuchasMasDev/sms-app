@@ -35,12 +35,18 @@ const transformScholarData = (data: ScholarDetails | undefined, disx: Municipali
         emergencyContactPhone: data.emergency_contact_phone,
         emergencyContactRelationship: data.emergency_contact_relationship,
         dui: data.dui || undefined,
-        addresses: [{
+        originAddress: {
             isUrban: data.origin_scholar_address.is_urban,
             streetLine1: data.origin_scholar_address.street_line_1,
             streetLine2: data.origin_scholar_address.street_line_2 || undefined,
             districtId: disx?.find(d => d.name === data.origin_scholar_address.district || '')?.id || 0,
-        }],
+        },
+        currentAddress: {
+            isUrban: data.current_scholar_address?.is_urban ?? false,
+            streetLine1: data.current_scholar_address?.street_line_1 || "",
+            streetLine2: data.current_scholar_address?.street_line_2 || undefined,
+            districtId: disx?.find(d => d.name === data.current_scholar_address?.district || '')?.id || 0,
+        },
         phoneNumbers: data.scholar_phone_numbers?.map(phone => ({
             id: phone.id,
             number: phone.number,
