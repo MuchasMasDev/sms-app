@@ -49,10 +49,10 @@ const CurrentResidenceSection = ({ control, errors, setValue }: CurrentResidence
             const residence = residenceMap.get(currentAddress)
             if (residence) {
                 // Update all form fields with values from the map
-                setValue('addresses.1.streetLine1', residence.streetLine1)
-                setValue('addresses.1.streetLine2', residence.streetLine2)
-                setValue('addresses.1.isUrban', residence.isUrban)
-                setValue('addresses.1.districtId', +residence.districtId)
+                setValue('currentAddress.streetLine1', residence.streetLine1)
+                setValue('currentAddress.streetLine2', residence.streetLine2)
+                setValue('currentAddress.isUrban', residence.isUrban)
+                setValue('currentAddress.districtId', +residence.districtId)
             }
         }
     }, [currentAddress, setValue])
@@ -73,11 +73,11 @@ const CurrentResidenceSection = ({ control, errors, setValue }: CurrentResidence
                 />
                 <FormItem
                     label="Dirección"
-                    invalid={Boolean(errors.addresses?.[1]?.streetLine1)}
-                    errorMessage={errors.addresses?.[1]?.streetLine1?.message}
+                    invalid={Boolean(errors.currentAddress?.streetLine1)}
+                    errorMessage={errors.currentAddress?.streetLine1?.message}
                 >
                     <Controller
-                        name="addresses.1.streetLine1"
+                        name="currentAddress.streetLine1"
                         control={control}
                         render={({ field }) => (
                             <Input
@@ -91,11 +91,11 @@ const CurrentResidenceSection = ({ control, errors, setValue }: CurrentResidence
                 </FormItem>
                 <FormItem
                     label="Dirección complementaria"
-                    invalid={Boolean(errors.addresses?.[1]?.streetLine2)}
-                    errorMessage={errors.addresses?.[1]?.streetLine2?.message}
+                    invalid={Boolean(errors.currentAddress?.streetLine2)}
+                    errorMessage={errors.currentAddress?.streetLine2?.message}
                 >
                     <Controller
-                        name="addresses.1.streetLine2"
+                        name="currentAddress.streetLine2"
                         control={control}
                         render={({ field }) => (
                             <Input
@@ -111,11 +111,11 @@ const CurrentResidenceSection = ({ control, errors, setValue }: CurrentResidence
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
                     label="¿Es una dirección de residencia urbana?"
-                    invalid={Boolean(errors.addresses?.[1]?.isUrban)}
-                    errorMessage={errors.addresses?.[1]?.isUrban?.message}
+                    invalid={Boolean(errors.currentAddress?.isUrban)}
+                    errorMessage={errors.currentAddress?.isUrban?.message}
                 >
                     <Controller
-                        name="addresses.1.isUrban"
+                        name="currentAddress.isUrban"
                         control={control}
                         render={({ field }) => (
                             <Switcher
@@ -127,11 +127,11 @@ const CurrentResidenceSection = ({ control, errors, setValue }: CurrentResidence
                 </FormItem>
                 <FormItem
                     label="Municipio"
-                    invalid={Boolean(errors.addresses?.[1]?.districtId)}
-                    errorMessage={errors.addresses?.[1]?.districtId?.message}
+                    invalid={Boolean(errors.currentAddress?.districtId)}
+                    errorMessage={errors.currentAddress?.districtId?.message}
                 >
                     <Controller
-                        name="addresses.1.districtId"
+                        name="currentAddress.districtId"
                         control={control}
                         render={({ field }) => {
                             const options = data?.map((municipality) => ({

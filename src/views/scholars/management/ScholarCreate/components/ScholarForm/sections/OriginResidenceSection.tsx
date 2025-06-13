@@ -19,11 +19,11 @@ const OriginResidenceSection = ({ control, errors }: OriginResidenceSectionProps
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
                     label="Dirección"
-                    invalid={Boolean(errors.addresses?.[0]?.streetLine1)}
-                    errorMessage={errors.addresses?.[0]?.streetLine1?.message}
+                    invalid={Boolean(errors.originAddress?.streetLine1)}
+                    errorMessage={errors.originAddress?.streetLine1?.message}
                 >
                     <Controller
-                        name="addresses.0.streetLine1"
+                        name="originAddress.streetLine1"
                         control={control}
                         render={({ field }) => (
                             <Input
@@ -37,11 +37,11 @@ const OriginResidenceSection = ({ control, errors }: OriginResidenceSectionProps
                 </FormItem>
                 <FormItem
                     label="Dirección complementaria"
-                    invalid={Boolean(errors.addresses?.[0]?.streetLine2)}
-                    errorMessage={errors.addresses?.[0]?.streetLine2?.message}
+                    invalid={Boolean(errors.originAddress?.streetLine2)}
+                    errorMessage={errors.originAddress?.streetLine2?.message}
                 >
                     <Controller
-                        name="addresses.0.streetLine2"
+                        name="originAddress.streetLine2"
                         control={control}
                         render={({ field }) => (
                             <Input
@@ -57,11 +57,11 @@ const OriginResidenceSection = ({ control, errors }: OriginResidenceSectionProps
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
                     label="¿Es una dirección de residencia urbana?"
-                    invalid={Boolean(errors.addresses?.[0]?.isUrban)}
-                    errorMessage={errors.addresses?.[0]?.isUrban?.message}
+                    invalid={Boolean(errors.originAddress?.isUrban)}
+                    errorMessage={errors.originAddress?.isUrban?.message}
                 >
                     <Controller
-                        name="addresses.0.isUrban"
+                        name="originAddress.isUrban"
                         control={control}
                         render={({ field }) => (
                             <Switcher
@@ -72,11 +72,11 @@ const OriginResidenceSection = ({ control, errors }: OriginResidenceSectionProps
                 </FormItem>
                 <FormItem
                     label="Municipio"
-                    invalid={Boolean(errors.addresses?.[0]?.districtId)}
-                    errorMessage={errors.addresses?.[0]?.districtId?.message}
+                    invalid={Boolean(errors.originAddress?.districtId)}
+                    errorMessage={errors.originAddress?.districtId?.message}
                 >
                     <Controller
-                        name="addresses.0.districtId"
+                        name="originAddress.districtId"
                         control={control}
                         render={({ field }) => {
                             const options = data?.map((municipality) => ({

@@ -67,9 +67,9 @@ export const CreateScholarSchema = z
             .string()
             .min(1, 'Requerido')
             .max(30, 'Máximo 30 caracteres'),
-        addresses: z
-            .array(CreateAddressDtoSchema)
-            .min(1, 'Se requiere al menos una dirección'),
+        originAddress: CreateAddressDtoSchema,
+        currentAddress: CreateAddressDtoSchema,
+        currentAddressId: z.number().optional(),
         phoneNumbers: z
             .array(CreatePhoneNumberDtoSchema)
             .min(1, 'Se requiere al menos un número de contacto'),
