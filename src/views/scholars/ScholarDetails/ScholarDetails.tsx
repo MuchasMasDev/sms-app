@@ -11,6 +11,15 @@ import DetailsSection from '@/views/scholars/ScholarDetails/DetailsSection'
 import { AuthorityCheck } from '@/components/shared'
 import { useAuth } from '@/auth'
 import { ScholarDetails as ScholarDType } from '@/@types/scholar'
+import ProfileMenu from './ProfileMenu'
+import {
+  HiOutlineUser,
+  HiOutlineDocumentText,
+  HiOutlineAcademicCap,
+  HiOutlineSupport,
+  HiOutlineClipboardList,
+  HiOutlineExternalLink
+} from 'react-icons/hi'
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -28,8 +37,15 @@ const ScholarDetails = () => {
         <Loading loading={isLoading}>
             {!isEmpty(data) && (
                 <div className="flex flex-col xl:flex-row gap-4">
-                    <div className="min-w-[330px] 2xl:min-w-[400px]">
-                        <ProfileSection data={data} />
+                    <div className="min-w-[230px] 2xl:min-w-[250px]">
+                        <ProfileMenu items={[
+                            { value: 'detalles',   label: 'Detalles de perfil',     icon: <HiOutlineUser/>},
+                            { value: 'bitacora',   label: 'Bitácora',               icon: <HiOutlineDocumentText /> },
+                            { value: 'academico',  label: 'Registro académico',     icon: <HiOutlineAcademicCap /> },
+                            { value: 'refuerzos',  label: 'Refuerzos académicos',   icon: <HiOutlineSupport /> },
+                            { value: 'notas',      label: 'Notas académicas',       icon: <HiOutlineClipboardList /> },
+                            { value: 'externos',   label: 'Refuerzos externos',     icon: <HiOutlineExternalLink /> },
+                        ]}/>
                     </div>
                     <Card className="w-full">
                         <Tabs defaultValue="detalles">
