@@ -14,18 +14,18 @@ type DetailType = {
 
 const Detail = ({ label, value }: DetailType) => {
     return (
-        <span className="grid grid-cols-3 gap-2">
+        <span className="grid grid-cols-3 gap-2 py-1"> 
             <span className="font-semibold">{label}</span>
-            <span className="col-span-2 break-words overflow-hidden">{value || 'N/A'}</span>
+            <span className="col-span-2 break-words overflow-hidden self-center">{value || 'N/A'}</span>
         </span>
     )
 }
 
 const BooleanDetail = ({ label, value }: DetailType) => {
     return (
-        <span className="grid grid-cols-3 gap-2">
+        <span className="grid grid-cols-3 gap-2 py-1">
             <span className="font-semibold">{label}</span>
-            <span className="col-span-2">
+            <span className="col-span-2 self-center">
                 {value ? (
                     <PiCheckCircle size={24} className="text-green-500" />
                 ) : (
@@ -48,8 +48,8 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
             value: `${data.user.first_name} ${data.user.last_name}`,
         },
         {
-            label: 'Email',
-            value: data.user.email,
+            label: 'DUI',
+            value: data.dui || 'N/A',
         },
         {
             label: 'Fecha de nacimiento',
@@ -66,8 +66,8 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
             value: String(data.number_of_children),
         },
         {
-            label: 'DUI',
-            value: data.dui || 'N/A',
+            label: 'Email',
+            value: data.user.email,
         },
     ]
 
@@ -88,7 +88,6 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
 
     return (
         <>
-            <h4 className="mt-4">Detalles de la becaria</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                 <Card>
                     <div className="font-bold heading-text">
@@ -120,20 +119,7 @@ const DetailsSection = ({ data }: DetailsSectionProps) => {
                     </div>
                 </Card>
 
-                <Card>
-                    <div className="font-bold heading-text">Discapacidad</div>
-                    <div className="mt-4 flex flex-col gap-1">
-                        <BooleanDetail
-                            label="Padece"
-                            value={data.has_disability}
-                        />
-                        <Detail
-                            label="Descripción"
-                            value={data.disability_description || 'N/A'}
-                        />
-                    </div>
-                </Card>
-                <Card>
+                <Card className='col-span-1 md:col-span-2'>
                     <div className="font-bold heading-text">Residencias</div>
                     <div className="mt-4 flex flex-col gap-1">
                         {/* Render current address */}
